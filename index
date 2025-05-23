@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="utf-8">
+    <title>輔仁大學 - Fu Jen Catholic University</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="輔仁大學,天主教大學,教育,學術研究" name="keywords">
+    <meta content="輔仁大學官方網站 - 致力於全人教育與學術卓越" name="description">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wdth,wght@0,75..100,300..800;1,75..100,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --fju-primary: #A3D5DC;
+            --fju-secondary: #E3D5C9;
+            --fju-accent: #F3EFDD;
+            --fju-neutral: #E3E8EB;
+            --fju-dark: #2C3E50;
+            --fju-text: #34495E;
+        }
+
+        body {
+            font-family: 'Open Sans', 'Microsoft JhengHei', sans-serif;
+            color: var(--fju-text);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--fju-primary) 0%, var(--fju-secondary) 100%);
+            box-shadow: 0 2px 15px rgba(163, 213, 220, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand h1 {
+            color: var(--fju-dark) !important;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--fju-dark) !important;
+            font-weight: 500;
+            padding: 0.75rem 1rem !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: #2980B9 !important;
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #2980B9;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after {
+            width: 80%;
+            left: 10%;
+        }
+
+        .dropdown-menu {
+            background: rgba(243, 239, 221, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--fju-secondary);
+            box-shadow: 0 10px 30px rgba(163, 213, 220, 0.3);
+            border-radius: 15px;
+        }
+
+        .dropdown-item {
+            color: var(--fju-text);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, var(--fju-primary), var(--fju-secondary));
+            color: var(--fju-dark);
+            transform: translateX(5px);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--fju-accent) 0%, var(--fju-neutral) 50%, var(--fju-primary) 100%);
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><path d="M0,100 C300,200 600,0 900,100 C1050,150 1150,50 1200,100 L1200,600 L0,600 Z" fill="rgba(227, 213, 201, 0.3)"/></svg>') no-repeat;
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h4 {
+            color: var(--fju-text) !important;
+        }
+
+        .hero-content h1 {
+            color: var(--fju-dark) !important;
+        }
+
+        .hero-content p {
+            color: var(--fju-text) !important;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(163, 213, 220, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid var(--fju-neutral);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(163, 213, 220, 0.3);
+            border-color: var(--fju-primary);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--fju-primary), var(--fju-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(163, 213, 220, 0.2);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid var(--fju-neutral);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(163, 213, 220, 0.3);
+            border-color: var(--fju-primary);
+        }
+
+        .news-date {
+            background: var(--fju-primary);
+            color: var(--fju-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--fju-primary), #7CC8D1);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: var(--fju-dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(163, 213, 220, 0.4);
+            color: var(--fju-dark);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--fju-secondary);
+            color: var(--fju-text);
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--fju-secondary);
+            color: var(--fju-dark);
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background: linear-gradient(135deg, var(--fju-dark) 0%, #34495E 100%);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer h4 {
+            color: var(--fju-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--fju-primary);
+            transform: translateX(5px);
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--fju-primary);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            color: var(--fju-dark);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            background: var(--fju-secondary);
+            color: var(--fju-dark) !important;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, var(--fju-secondary) 0%, var(--fju-accent) 100%);
+            color: var(--fju-dark);
+            padding: 4rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--fju-primary);
+            display: block;
+            text-shadow: 1px 1px 2px rgba(163, 213, 220, 0.3);
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            color: var(--fju-text);
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+            color: var(--fju-dark);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: var(--fju-primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .bg-light {
+            background: var(--fju-accent) !important;
+        }
+
+        .btn-outline-primary {
+            border-color: var(--fju-primary);
+            color: var(--fju-primary);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--fju-primary);
+            border-color: var(--fju-primary);
+            color: var(--fju-dark);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                text-align: center;
+                padding: 2rem 0;
+            }
+            
+            .navbar-nav {
+                background: rgba(163, 213, 220, 0.95);
+                border-radius: 10px;
+                margin-top: 1rem;
+                padding: 1rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--fju-neutral);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--fju-primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--fju-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a href="#" class="navbar-brand">
+                <h1><i class="fas fa-university me-3"></i>輔仁大學</h1>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">首頁</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">學務總覽</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">核心服務</a></li>
+                            <li><a class="dropdown-item" href="#">學習資源</a></li>
+                            <li><a class="dropdown-item" href="#">學期事曆</a></li>
+                            <li><a class="dropdown-item" href="#">學生系統</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">校園生活</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">生活服務</a></li>
+                            <li><a class="dropdown-item" href="#">課外活動</a></li>
+                            <li><a class="dropdown-item" href="#">社團專區</a></li>
+                            <li><a class="dropdown-item" href="#">健康中心</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">教學資源</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">數位學習</a></li>
+                            <li><a class="dropdown-item" href="#">研究支援</a></li>
+                            <li><a class="dropdown-item" href="#">線上學習平台</a></li>
+                            <li><a class="dropdown-item" href="#">實驗室預約</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">國際化專區</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">海外交流</a></li>
+                            <li><a class="dropdown-item" href="#">語言支援</a></li>
+                            <li><a class="dropdown-item" href="#">交換學生計畫</a></li>
+                            <li><a class="dropdown-item" href="#">國際合作院校</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">快速服務</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">常用系統</a></li>
+                            <li><a class="dropdown-item" href="#">校園工具</a></li>
+                            <li><a class="dropdown-item" href="#">在線申請</a></li>
+                            <li><a class="dropdown-item" href="#">校園APP</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Hero Section Start -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h4 class="mb-3 fw-bold">Fu Jen Catholic University</h4>
+                        <h1 class="display-3 fw-bold mb-4">致力全人教育<br>追求學術卓越</h1>
+                        <p class="fs-5 mb-5">輔仁大學秉持天主教大學的辦學理念，以「真、善、美、聖」為校訓，培育具有人文關懷與專業知識的優秀人才。</p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="#" class="btn btn-primary">了解更多</a>
+                            <a href="#" class="btn btn-secondary">入學申請</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <img src="https://via.placeholder.com/500x400/A3D5DC/2C3E50?text=輔仁大學校園" class="img-fluid rounded" alt="輔仁大學">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Stats Section Start -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">12</span>
+                        <div class="stat-label">學院</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">60</span>
+                        <div class="stat-label">學系</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">28000</span>
+                        <div class="stat-label">學生人數</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">95</span>
+                        <div class="stat-label">年辦學歷史</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Stats Section End -->
+
+    <!-- Features Section Start -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-4 fw-bold section-title">學校特色</h2>
+                <p class="lead">輔仁大學致力於提供優質的教育環境與全方位的學習體驗</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-graduation-cap text-white fa-2x"></i>
+                        </div>
+                        <h4 class="mb-3">全人教育</h4>
+                        <p>注重學生品格培養與專業知識並重，培育具有人文素養的現代公民。</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe text-white fa-2x"></i>
+                        </div>
+                        <h4 class="mb-3">國際視野</h4>
+                        <p>與全球知名大學建立合作關係，提供豐富的國際交流與學習機會。</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-microscope text-white fa-2x"></i>
+                        </div>
+                        <h4 class="mb-3">學術研究</h4>
+                        <p>擁有先進的研究設備與優秀的師資團隊，致力於學術創新與發展。</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon">
+                            <i class="fas fa-users text-white fa-2x"></i>
+                        </div>
+                        <h4 class="mb-3">社會服務</h4>
+                        <p>秉持服務社會的精神，鼓勵師生參與社會公益與志工服務活動。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Features Section End -->
+
+    <!-- News Section Start -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-4 fw-bold section-title">最新消息</h2>
+                <p class="lead">掌握輔仁大學最新動態與重要資訊</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="news-card">
+                        <div class="position-relative">
+                            <img src="https://via.placeholder.com/400x250/E3D5C9/2C3E50?text=校園新聞" class="img-fluid" alt="新聞圖片">
+                            <div class="news-date">2025/05/20</div>
+                        </div>
+                        <div class="p-4">
+                            <h5 class="mb-3">113學年度畢業典禮圓滿落幕</h5>
+                            <p class="text-muted">本校113學年度畢業典禮於五月舉行，共有3,500位畢業生參與這個重要時刻...</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">閱讀更多</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="news-card">
+                        <div class="position-relative">
+                            <img src="https://via.placeholder.com/400x250/A3D5DC/2C3E50?text=學術活動" class="img-fluid" alt="新聞圖片">
+                            <div class="news-date">2025/05/18</div>
+                        </div>
+                        <div class="p-4">
+                            <h5 class="mb-3">國際學術研討會成功舉辦</h5>
+                            <p class="text-muted">本校與國際知名大學合作舉辦之學術研討會，吸引來自20國的學者參與...</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">閱讀更多</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="news-card">
+                        <div class="position-relative">
+                            <img src="https://via.placeholder.com/400x250/F3EFDD/2C3E50?text=招生資訊" class="img-fluid" alt="新聞圖片">
+                            <div class="news-date">2025/05/15</div>
+                        </div>
+                        <div class="p-4">
+                            <h5 class="mb-3">114學年度入學申請開跑</h5>
+                            <p class="text-muted">114學年度各學制入學申請已開始，歡迎有志青年加入輔仁大學大家庭...</p>
+                            <a href="#" class="btn btn-outline-primary btn-sm">閱讀更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- News Section End -->
+
+    <!-- Footer Start -->
+    <div class="container my-5">
+    <h2 class="text-center mb-4">校園位置</h2>
+    <div class="ratio ratio-16x9">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.9336183148926!2d121.43007997358917!3d25.036326738201296!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442a7dd8be91eaf%3A0xe342a67d6574f896!2z5aSp5Li75pWZ6LyU5LuB5aSn5a24!5e0!3m2!1szh-TW!2stw!4v1747987848636!5m2!1szh-TW!2stw" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</div><div class="container my-5">
+    <h2 class="text-center mb-4">行事曆</h2>
+    <div class="ratio ratio-4x3">
+        <iframe src="https://calendar.google.com/calendar/embed?src=6d3341c0268485919e7aef33f8326288de78791e7c4e9384a8aca25fb4197869%40group.calendar.google.com&ctz=Asia%2FTaipei" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+    </div>
+</div><footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <h4><i class="fas fa-university me-2"></i>輔仁大學</h4>
+                    <p class="mb-4">天主教輔仁大學致力於全人教育，培育具有人文關懷與專業知識的優秀人才，為社會貢獻心力。</p>
+                    <div>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4>學務總覽</h4>
+                    <div class="d-flex flex-column">
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>學期事曆</a>
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>學生系統</a>
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>學雜費繳交</a>
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>選課系統</a>
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>成績查詢</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4>校園生活</h4>
+                    <div class="d-flex flex-column">
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>交通資訊</a>
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>餐飲服務</a>
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>宿舍管理</a>
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>社團專區</a>
+                        <a href="#" class="mb-2"><i class="fas fa-angle-right me-2"></i>健康中心</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4>聯絡資訊</h4>
+                    <div class="d-flex flex-column">
+                        <a href="#" class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>新北市新莊區中正路510號</a>
+                        <a href="tel:+886229052000" class="mb-2"><i class="fas fa-phone me-2"></i>(02) 2905-2000</a>
+                        <a href="mailto:info@fju.edu.tw" class="mb-2"><i class="fas fa-envelope me-2"></i>info@fju.edu.tw</a>
+                        <a href="#" class="mb-2"><i class="fas fa-globe me-2"></i>www.fju.edu.tw</a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <span>&copy; 2025 天主教輔仁大學 版權所有</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <span>隱私權政策 | 網站地圖 | 無障礙聲明</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary position-fixed bottom-0 end-0 m-4 rounded-circle" style="width: 50px; height: 50px; z-index: 1000;">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar transparency on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'linear-gradient(135deg, rgba(163, 213, 220, 0.95) 0%, rgba(227, 213, 201, 0.95) 100%)';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else {
+                navbar.style.background = 'linear-gradient(135deg, var(--fju-primary) 0%, var(--fju-secondary) 100%)';
+                navbar.style.backdropFilter = 'none';
+            }
+        });
+
+        // Counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 200;
+
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = parseInt(counter.innerText);
+                    const count = parseInt(counter.getAttribute('data-count') || 0);
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.setAttribute('data-count', Math.ceil(count + inc));
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 1);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        }
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('stats-section')) {
+                        animateCounters();
+                    }
+                    
+                    // Add fade-in animation
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe sections for animations
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'all 0.6s ease';
+            observer.observe(section);
+        });
+
+        // Back to top button functionality
+        const backToTopBtn = document.querySelector('.position-fixed');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.visibility = 'visible';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.visibility = 'hidden';
+            }
+        });
+
+        backToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Initialize back to top button
+        backToTopBtn.style.opacity = '0';
+        backToTopBtn.style.visibility = 'hidden';
+        backToTopBtn.style.transition = 'all 0.3s ease';
+    </script>
+
+</body>
+</html>
