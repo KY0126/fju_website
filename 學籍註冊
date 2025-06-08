@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>輔仁大學學籍註冊系統 - AI 智慧平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --fju-blue: #004B8D; /* 輔大藍 */
+            --fju-light-blue: #007bff;
+            --fju-secondary: #6c757d;
+            --fju-light-grey: #f8f9fa;
+            --fju-dark-grey: #343a40;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--fju-light-grey);
+            color: var(--fju-dark-grey);
+        }
+
+        .navbar-brand, .nav-link {
+            font-weight: bold;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: var(--fju-dark-grey);
+        }
+
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: var(--fju-blue);
+        }
+
+        .navbar-custom {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+        }
+
+        .hero-section {
+            background-color: var(--fju-blue);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--fju-blue);
+            border-bottom: 2px solid var(--fju-blue);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 2rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.07);
+            transition: transform 0.2s ease-in-out;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: var(--fju-blue);
+            color: white;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0 !important;
+        }
+
+        .card-body ul, .section-content-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .card-body ul li, .section-content-list ul li {
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--fju-light-grey);
+        }
+
+        .card-body ul li:last-child, .section-content-list ul li:last-child {
+            border-bottom: none;
+        }
+
+        .card-body ul li a, .section-content-list ul li a {
+            color: var(--fju-dark-grey);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .card-body ul li a:hover, .section-content-list ul li a:hover {
+            color: var(--fju-light-blue);
+        }
+
+        .footer {
+            background-color: var(--fju-dark-grey);
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        .accordion-item {
+            border: 1px solid #dee2e6;
+            margin-bottom: 10px;
+            border-radius: 0.25rem;
+        }
+
+        .accordion-button {
+            background-color: white;
+            color: var(--fju-blue);
+            font-weight: bold;
+            font-size: 1.25rem;
+            border-radius: 0.25rem;
+            box-shadow: none;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #f0f0f0;
+            color: var(--fju-blue);
+            box-shadow: none;
+        }
+
+        .accordion-button:focus {
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        .accordion-body {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .accordion-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .accordion-body ul li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #e9ecef;
+        }
+
+        .accordion-body ul li:last-child {
+            border-bottom: none;
+        }
+
+        .accordion-body ul li a {
+            color: var(--fju-dark-grey);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: block;
+        }
+
+        .accordion-body ul li a:hover {
+            color: var(--fju-light-blue);
+        }
+
+        .question-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .question-suggestion-box {
+            background-color: #e0e0e0;
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            white-space: nowrap;
+            border: 1px solid #d0d0d0;
+        }
+
+        .question-suggestion-box:hover {
+            background-color: #d0d0d0;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#home">輔仁大學學籍註冊系統</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.fju.edu.tw/index.jsp"
+                            target="_blank" rel="noopener noreferrer">輔仁大學</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="http://www.fju.edu.tw/administration.jsp?labelID=9" target="_blank" rel="noopener
+                            noreferrer">English</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                            href="https://academic.fju.edu.tw/sitemap.jsp?choice=1" target="_blank" rel="noopener
+                            noreferrer">網站地圖</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.adm.fju.edu.tw/"
+                            target="_blank" rel="noopener noreferrer">招生資訊網</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section" id="home">
+        <div class="container">
+            <h1>歡迎使用 AI 智慧學籍註冊系統</h1>
+            <p>提供您個人化、便捷的學籍管理與行政服務。</p>
+            <div class="input-group mb-3 w-75 mx-auto">
+                <input type="text" class="form-control form-control-lg" placeholder="輸入
+                    關鍵字搜尋學籍資訊、表單或問題..." aria-label="Search" id="globalSearchInput">
+                <button class="btn btn-warning btn-lg" type="button"
+                    id="globalSearchBtn">智慧搜尋</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="container my-5">
+        <section class="info-section mb-5" id="personal-self-service">
+            <div class="container">
+                <h2 class="section-title text-center">個人化與自助服務類</h2>
+                <div class="accordion" id="personalAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingPersonalAcademics">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePersonalAcademics" aria-expanded="false"
+                                aria-controls="collapsePersonalAcademics">
+                                個人學籍資訊查詢與修改
+                            </button>
+                        </h2>
+                        <div id="collapsePersonalAcademics" class="accordion-collapse collapse"
+                            aria-labelledby="headingPersonalAcademics" data-bs-parent="#personalAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li><a href="#">歷史學籍狀態查詢</a></li>
+                                    <li><a href="#">個人基本資料線上修改 (聯絡電話、地址、電子郵件)</a></li>
+                                    <li><a href="#">證件照更新</a></li>
+                                    <li><a href="#">兵役資料申報與變更</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingAcademicChanges">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseAcademicChanges" aria-expanded="false"
+                                aria-controls="collapseAcademicChanges">
+                                學籍異動線上申請與進度查詢
+                            </button>
+                        </h2>
+                        <div id="collapseAcademicChanges" class="accordion-collapse collapse"
+                            aria-labelledby="headingAcademicChanges" data-bs-parent="#personalAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li><a href="#">線上申請休學/復學/退學/轉系/雙主修/輔系</a></li>
+                                    <li><a href="#">學籍證明/成績單申請與領取進度</a></li>
+                                    <li><a href="#">畢業證書補發申請</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section mb-5" id="course-learning-planning">
+            <div class="container">
+                <h2 class="section-title text-center">課程與學習規劃類</h2>
+                <div class="accordion" id="coursePlanningAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCourseSelectionConsultation">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseCourseSelectionConsultation" aria-expanded="false"
+                                aria-controls="collapseCourseSelectionConsultation">
+                                選課與課程諮詢專區
+                            </button>
+                        </h2>
+                        <div id="collapseCourseSelectionConsultation" class="accordion-collapse collapse"
+                            aria-labelledby="headingCourseSelectionConsultation" data-bs-parent="#coursePlanningAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li><a href="#">個人化選課建議</a></li>
+                                    <li><a href="#">預修/抵免學分申請與查詢</a></li>
+                                    <li><a href="#">學業進度檢視與畢業門檻查詢</a></li>
+                                    <li><a href="#">課程地圖與學術生涯規劃指引</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingLearningResourcesGuidance">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseLearningResourcesGuidance" aria-expanded="false"
+                                aria-controls="collapseLearningResourcesGuidance">
+                                學習資源與輔導
+                            </button>
+                        </h2>
+                        <div id="collapseLearningResourcesGuidance" class="accordion-collapse collapse"
+                            aria-labelledby="headingLearningResourcesGuidance" data-bs-parent="#coursePlanningAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li><a href="#">課外學習活動與認證</a></li>
+                                    <li><a href="#">學業輔導與諮詢預約</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section mb-5" id="financial-administrative">
+            <div class="container">
+                <h2 class="section-title text-center">財務與行政類</h2>
+                <div class="accordion" id="financialAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTuitionFee">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTuitionFee" aria-expanded="false"
+                                aria-controls="collapseTuitionFee">
+                                學雜費繳費與減免資訊
+                            </button>
+                        </h2>
+                        <div id="collapseTuitionFee" class="accordion-collapse collapse"
+                            aria-labelledby="headingTuitionFee" data-bs-parent="#financialAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li><a href="#">線上繳費狀態查詢與補單</a></li>
+                                    <li><a href="#">學雜費減免/就學貸款申請與進度查詢</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingScholarships">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseScholarships" aria-expanded="false"
+                                aria-controls="collapseScholarships">
+                                獎學金專區
+                            </button>
+                        </h2>
+                        <div id="collapseScholarships" class="accordion-collapse collapse"
+                            aria-labelledby="headingScholarships" data-bs-parent="#financialAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li><a href="#">校內外獎學金資訊</a></li>
+                                    <li><a href="#">獎學金申請與進度查詢</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="info-section mb-5" id="info-support">
+            <div class="container">
+                <h2 class="section-title text-center">資訊與支援類</h2>
+                <div class="accordion" id="infoAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFAQSmartService">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFAQSmartService" aria-expanded="false"
+                                aria-controls="collapseFAQSmartService">
+                                常見問題 (FAQ) 與智能客服
+                            </button>
+                        </h2>
+                        <div id="collapseFAQSmartService" class="accordion-collapse collapse"
+                            aria-labelledby="headingFAQSmartService" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <p>針對學籍、註冊、費用等常見問題，建立知識庫或導入智能客服，提供即時解答。</p>
+                                <div class="card p-4 mt-3">
+                                    <div class="card-body">
+                                        <p class="mb-3">輸入您的問題，我會為您推薦相關頁面：</p>
+                                        <div class="question-suggestions" id="faqQuestionSuggestions">
+                                            <span class="question-suggestion-box" data-query="學籍">學籍</span>
+                                            <span class="question-suggestion-box" data-query="休學">休學</span>
+                                            <span class="question-suggestion-box" data-query="復學">復學</span>
+                                            <span class="question-suggestion-box" data-query="成績單">成績單</span>
+                                            <span class="question-suggestion-box" data-query="繳費">繳費</span>
+                                            <span class="question-suggestion-box" data-query="獎學金">獎學金</span>
+                                            <span class="question-suggestion-box" data-query="兵役">兵役</span>
+                                            <span class="question-suggestion-box" data-query="轉系">轉系</span>
+                                        </div>
+                                        <div class="input-group mb-3" id="faqInteractiveContainer">
+                                            <input type="text" class="form-control" placeholder="例如：如何申請休學？" id="faqInput">
+                                            <button class="btn btn-info" type="button" id="faqSearchBtn">查詢</button>
+                                        </div>
+                                        <div id="faqResults" class="mb-3 d-none">
+                                            <p class="text-muted small">為您找到以下相關內容：</p>
+                                            <ul id="faqResultList">
+                                                </ul>
+                                        </div>
+                                        <p class="text-muted small">找不到答案？請使用學籍註冊小幫手獲得即時協助。</p>
+                                        <a href="#" class="btn btn-outline-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#smartChatModal">前往學籍註冊小幫手/線上諮詢</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2025 輔仁大學學籍註冊系統。版權所有。</p>
+            <p>技術支援: AI 智慧服務團隊</p>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="smartChatModal" tabindex="-1"
+        aria-labelledby="smartChatModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="smartChatModalLabel">學籍註冊小幫手</h5>
+                    <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="chatMessages"
+                        style="height: 300px; overflow-y: scroll; border: 1px solid #eee; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
+                        <div class="d-flex mb-2">
+                            <div class="flex-shrink-0 me-2">
+                                <img src="輔星寶-頭貼.jpg" alt="輔星寶"
+                                    class="rounded-circle" width="30" height="30">
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="p-2 bg-light rounded shadow-sm"
+                                    style="max-width: 80%;">
+                                    大家好！我是輔星寶，輔仁大學的AI吉祥物。我會穿梭在校園各個線上平台和AI智能服務中，為你解答學籍註冊相關問題，因為我可是掌握了所有資訊喔！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mt-3">
+                        <input type="text" class="form-control" placeholder="輸入您的問
+                            題..." id="chatInput">
+                        <button class="btn btn-primary" type="button"
+                            id="sendChatBtn">送出</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-lg rounded-circle" id="smartChatBtn"
+        data-bs-toggle="modal" data-bs-target="#smartChatModal" title="學籍註冊小幫手">
+        <img src="輔星寶-頭貼.jpg" alt="輔星寶" class="rounded-circle">
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Smooth scrolling for navigation links and internal section links
+            // This part might need adjustment if you plan to add specific internal anchors
+            // for each accordion item and link them from a separate navigation menu.
+            // For now, it scrolls to the main section.
+            $('a[href^="#"]').on('click', function(event) {
+                if ($(this).data('bs-toggle') === 'modal' || !this.hash) {
+                    return;
+                }
+                var target = $(this.hash);
+                if (target.length) {
+                    event.preventDefault();
+                    var offset = $('.navbar').outerHeight();
+                    $('html, body').animate({ scrollTop: target.offset().top - offset }, 800);
+                }
+            });
+
+            // Simulate Global Search Bar
+            $('#globalSearchBtn').on('click', function() {
+                var searchTerm = $('#globalSearchInput').val().trim();
+                if (searchTerm) {
+                    alert('AI 正在為您搜尋 "' + searchTerm + '" 相關資訊... (實際功能需連結後端 AI 服務)');
+                } else {
+                    alert('請輸入搜尋關鍵字！');
+                }
+            });
+
+            // FAQ Interactive Section
+            const faqDatabase = {
+                "學籍": [
+                    { "title": "歷史學籍狀態查詢", "url": "#personal-self-service" },
+                    { "title": "學籍異動線上申請", "url": "#personal-self-service" } // Point to the main section for simplicity
+                ],
+                "休學": [
+                    { "title": "線上申請休學", "url": "#personal-self-service" },
+                    { "title": "休學相關規定", "url": "#info-support" }
+                ],
+                "復學": [
+                    { "title": "線上申請復學", "url": "#personal-self-service" },
+                    { "title": "復學相關規定", "url": "#info-support" }
+                ],
+                "成績單": [
+                    { "title": "成績單申請與領取進度", "url": "#personal-self-service" }
+                ],
+                "繳費": [
+                    { "title": "線上繳費狀態查詢與補單", "url": "#financial-administrative" },
+                    { "title": "學雜費減免/就學貸款申請", "url": "#financial-administrative" }
+                ],
+                "獎學金": [
+                    { "title": "校內外獎學金資訊", "url": "#financial-administrative" },
+                    { "title": "獎學金申請與進度查詢", "url": "#financial-administrative" }
+                ],
+                "兵役": [
+                    { "title": "兵役資料申報與變更", "url": "#personal-self-service" }
+                ],
+                "轉系": [
+                    { "title": "線上申請轉系", "url": "#personal-self-service" }
+                ]
+            };
+
+            function performFaqSearch(query) {
+                const results = faqDatabase[query] || [];
+                const faqResultList = $('#faqResultList');
+                faqResultList.empty(); // Clear previous results
+
+                if (results.length > 0) {
+                    results.forEach(item => {
+                        faqResultList.append(`<li><a href="${item.url}">${item.title}</a></li>`);
+                    });
+                    $('#faqResults').removeClass('d-none');
+                } else {
+                    faqResultList.append('<li>很抱歉，沒有找到相關內容。</li>');
+                    $('#faqResults').removeClass('d-none');
+                }
+            }
+
+            $('#faqSearchBtn').on('click', function() {
+                var query = $('#faqInput').val().trim();
+                performFaqSearch(query);
+            });
+
+            $('#faqQuestionSuggestions .question-suggestion-box').on('click', function() {
+                var query = $(this).data('query');
+                $('#faqInput').val(query); // Set the input value
+                performFaqSearch(query);
+            });
+
+            // Smart Chat Modal Interaction (Simplified)
+            $('#sendChatBtn').on('click', function() {
+                var chatInput = $('#chatInput');
+                var message = chatInput.val().trim();
+                if (message) {
+                    var chatMessages = $('#chatMessages');
+                    // Add user message
+                    chatMessages.append(
+                        '<div class="d-flex justify-content-end mb-2">' +
+                            '<div class="flex-grow-1 text-end">' +
+                                '<div class="user-chat-bubble bg-primary text-white p-2 rounded shadow-sm" style="display: inline-block; max-width: 80%;">您: ' + message + '</div>' +
+                            '</div>' +
+                        '</div>'
+                    );
+                    chatInput.val(''); // Clear input
+
+                    // Simulate AI response
+                    setTimeout(function() {
+                        chatMessages.append(
+                            '<div class="d-flex mb-2">' +
+                                '<div class="flex-shrink-0 me-2">' +
+                                    '<img src="輔星寶-頭貼.jpg" alt="輔星寶" class="rounded-circle" width="30" height="30">' +
+                                '</div>' +
+                                '<div class="flex-grow-1">' +
+                                    '<div class="p-2 bg-light rounded shadow-sm" style="max-width: 80%;">輔星寶: 您好！我是學籍註冊小幫手，很高興為您服務。請問您需要查詢哪方面的學籍資訊呢？</div>' +
+                                '</div>' +
+                            '</div>'
+                        );
+                        // Scroll to the bottom of the chat
+                        chatMessages.scrollTop(chatMessages[0].scrollHeight);
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
