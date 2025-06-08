@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>輔仁大學課務選課系統 - AI 智慧平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --fju-blue: #004B8D; /* 輔大藍 */
+            --fju-light-blue: #007bff;
+            --fju-secondary: #6c757d;
+            --fju-light-grey: #f8f9fa;
+            --fju-dark-grey: #343a40;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif; /* Apply Noto Sans TC */
+            background-color: var(--fju-light-grey);
+            color: var(--fju-dark-grey);
+        }
+
+        .navbar-brand, .nav-link {
+            font-weight: bold;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: var(--fju-dark-grey);
+        }
+
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: var(--fju-blue);
+        }
+
+        .navbar-custom {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+        }
+
+        .hero-section {
+            background-color: var(--fju-blue);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--fju-blue);
+            border-bottom: 2px solid var(--fju-blue);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 2rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.07);
+            transition: transform 0.2s ease-in-out;
+            height: 100%; /* Keep for general cards, but accordion items handle their own height */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: var(--fju-blue);
+            color: white;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0 !important;
+        }
+        
+        /* Specific styles for lists within cards/sections */
+        .card-body ul, .section-content-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .card-body ul li, .section-content-list ul li {
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--fju-light-grey);
+        }
+
+        .card-body ul li:last-child, .section-content-list ul li:last-child {
+            border-bottom: none;
+        }
+
+        .card-body ul li a, .section-content-list ul li a {
+            color: var(--fju-dark-grey);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .card-body ul li a:hover, .section-content-list ul li a:hover {
+            color: var(--fju-light-blue);
+        }
+
+        .footer {
+            background-color: var(--fju-dark-grey);
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        .ai-recommendation-section {
+            background-color: #e9f0f6; /* Lighter blue for AI section */
+            padding: 50px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,.05);
+        }
+
+        .ai-recommendation-section h2 {
+            color: var(--fju-blue);
+        }
+
+        .ai-recommendation-section .input-group {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #aiRecommendationResults {
+            margin-top: 20px;
+            min-height: 100px; /* Placeholder for results */
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+        }
+
+        #smartChatBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0,0,0,.2);
+        }
+        #smartChatBtn img { /* Style for the image inside the floating button */
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the button area */
+            border-radius: 50%; /* Keep it round */
+        }
+
+
+        /* Specific styles for the interactive FAQ/Customer Service */
+        #faqInteractiveContainer {
+            margin-top: 20px;
+        }
+        #faqResults {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f0f8ff; /* Light blue background */
+            border-left: 5px solid var(--fju-blue);
+            border-radius: 5px;
+            min-height: 80px; /* Ensure some height for results */
+        }
+        #faqResults ul {
+            list-style: disc inside;
+        }
+        #faqResults ul li {
+            padding: 5px 0;
+            border-bottom: none; /* Override default card-body li border */
+        }
+
+        /* Styles for the new "重要連結與資訊" section and "常見問題與線上客服" - Accordion specific */
+        .info-section {
+            background-color: #ffffff;
+            padding: 40px; /* Uniform padding */
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.07);
+        }
+        .info-section h3 {
+            color: var(--fju-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+        .accordion-item {
+            border: 1px solid #dee2e6;
+            margin-bottom: 10px;
+            border-radius: .25rem;
+        }
+        .accordion-button {
+            background-color: white; /* Changed to white */
+            color: var(--fju-blue); /* Changed to FJU Blue */
+            font-weight: bold;
+            font-size: 1.25rem;
+            border-radius: .25rem;
+            box-shadow: none; /* Remove default shadow */
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: #f0f0f0; /* Lighter grey when open */
+            color: var(--fju-blue); /* Keep FJU Blue */
+            box-shadow: none;
+        }
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+        .accordion-body {
+            padding: 20px;
+            background-color: #f8f9fa; /* Light background for content */
+            border-top: 1px solid #dee2e6;
+        }
+        .accordion-body ul {
+            list-style: none; /* Remove default list style */
+            padding: 0;
+            margin: 0;
+        }
+        .accordion-body ul li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #e9ecef; /* Light dashed line for sub-items */
+        }
+        .accordion-body ul li:last-child {
+            border-bottom: none;
+        }
+        .accordion-body ul li a {
+            color: var(--fju-dark-grey);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: block; /* Make the whole list item clickable */
+        }
+        .accordion-body ul li a:hover {
+            color: var(--fju-light-blue);
+        }
+        .accordion-body ul li a p {
+            font-size: 0.9em;
+            color: var(--fju-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Chat bubble styling for user */
+        .user-chat-bubble {
+            background-color: var(--fju-blue); /* FJU Blue background */
+            color: white; /* White text */
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 80%;
+            display: inline-block;
+        }
+
+        /* User image specific styling */
+        .user-avatar {
+            background-color: var(--fju-blue); /* Blue background for the circle */
+            border-radius: 50%; /* Make it round */
+            width: 30px; /* Consistent size */
+            height: 30px;
+            display: flex; /* For centering text */
+            align-items: center;
+            justify-content: center;
+            color: white; /* White text for "您" */
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        /* Styles for the floating question suggestions */
+        .question-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px; /* Space between suggestion boxes */
+            margin-bottom: 15px;
+        }
+
+        .question-suggestion-box {
+            background-color: #e0e0e0; /* Light grey */
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 20px; /* More rounded for a bubble-like feel */
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            white-space: nowrap; /* Prevent text from wrapping */
+            border: 1px solid #d0d0d0; /* Subtle border */
+        }
+
+        .question-suggestion-box:hover {
+            background-color: #d0d0d0; /* Slightly darker on hover */
+            transform: translateY(-1px); /* Slight lift effect */
+        }
+
+        /* Styles for Career-Oriented Recommendation Section */
+        #careerRecommendationSection {
+            background-color: #f6f8fA;
+            padding: 50px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.07);
+        }
+        #careerRecommendationSection h2 {
+            color: var(--fju-blue);
+        }
+        .career-step {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+            margin-top: 20px;
+        }
+        .ability-tag {
+            display: inline-block;
+            background-color: var(--fju-light-blue);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin: 4px;
+            font-size: 0.85em;
+        }
+        .course-card {
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            border-left: 5px solid var(--fju-blue);
+        }
+        .course-card .card-title {
+            color: var(--fju-blue);
+            font-weight: bold;
+        }
+        .course-card .badge {
+            font-size: 0.75em;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#home">輔仁大學課務選課系統</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.fju.edu.tw/index.jsp" target="_blank" rel="noopener noreferrer">輔仁大學</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.fju.edu.tw/administration.jsp?labelID=9" target="_blank" rel="noopener noreferrer">English</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://academic.fju.edu.tw/sitemap.jsp?choice=1" target="_blank" rel="noopener noreferrer">網站地圖</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.adm.fju.edu.tw/" target="_blank" rel="noopener noreferrer">招生資訊網</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="hero-section" id="home">
+        <div class="container">
+            <h1>歡迎使用 AI 智慧課務選課系統</h1>
+            <p>透過人工智慧，為您提供更個人化、更有效率的選課與學涯規劃服務。</p>
+            <div class="input-group mb-3 w-75 mx-auto">
+                <input type="text" class="form-control form-control-lg" placeholder="輸入關鍵字搜尋課程、學程或問題..." aria-label="Search" id="globalSearchInput">
+                <button class="btn btn-warning btn-lg" type="button" id="globalSearchBtn">智慧搜尋</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="container my-5">
+
+        <section class="ai-recommendation-section text-center mb-5">
+            <h2 class="section-title">AI 智慧推薦</h2>
+            <p class="lead">基於您的學涯規劃與興趣，為您推薦最適合的課程與資源！</p>
+            <button class="btn btn-primary btn-lg mt-3" id="getAiRecommendations">立即獲取 AI 推薦</button>
+            <div id="aiRecommendationResults" class="mt-4 text-start d-none">
+                <h5 class="text-fju-blue">推薦結果：</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-decoration-none">AI 程式設計概論 (符合您的資訊工程興趣)</a></li>
+                    <li><a href="#" class="text-decoration-none">永續發展與環境倫理 (通識推薦，符合全球趨勢)</a></li>
+                    <li><a href="#" class="text-decoration-none">大數據分析應用學程 (熱門跨領域學程)</a></li>
+                </ul>
+                <p class="text-muted small mt-3">※ 推薦結果僅供參考，實際選課請以教務處公告為準。</p>
+            </div>
+        </section>
+
+        <section id="careerRecommendationSection" class="text-center mb-5">
+            <h2 class="section-title">職涯導向式課程推薦</h2>
+            <p class="lead">選擇您的職涯目標，AI將為您推薦所需能力與相關課程！</p>
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                    <div class="career-step">
+                        <h5>步驟一：選擇您的職涯目標</h5>
+                        <select class="form-select mt-3" id="careerGoalSelect">
+                            <option value="">請選擇一個職涯方向...</option>
+                            <option value="軟體工程師">軟體工程師</option>
+                            <option value="數據分析師">數據分析師</option>
+                            <option value="行銷企劃">行銷企劃</option>
+                            <option value="會計師">會計師</option>
+                            <option value="UI/UX 設計師">UI/UX 設計師</option>
+                            <option value="自行輸入">自行輸入職涯目標...</option>
+                        </select>
+                        <div id="customCareerInputGroup" class="input-group mt-3 d-none">
+                            <input type="text" class="form-control" placeholder="請輸入您的職涯目標，例如：前端工程師" id="customCareerInput">
+                            <button class="btn btn-outline-primary" type="button" id="confirmCustomCareerBtn">確認</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="careerDetails" class="row justify-content-center mt-4 d-none">
+                <div class="col-md-8">
+                    <div class="career-step">
+                        <h5>步驟二：職涯所需核心能力</h5>
+                        <p class="text-muted small">以下是 AI 為您分析的「<span id="displayCareerGoal" class="fw-bold text-fju-blue"></span>」所需能力，您可以點擊選擇或輸入更多您感興趣的能力。</p>
+                        <div id="requiredAbilities" class="mb-3 text-start">
+                            </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="輸入更多您想提升的能力，例如：溝通、專案管理" id="additionalAbilityInput">
+                            <button class="btn btn-outline-secondary" type="button" id="addAbilityBtn">新增</button>
+                        </div>
+                        <button class="btn btn-primary mt-3" id="searchCareerCoursesBtn">搜尋相關課程與學程</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="careerCourseResults" class="row justify-content-center mt-4 d-none">
+                <div class="col-md-10">
+                    <div class="career-step text-start">
+                        <h5>步驟三：推薦課程與學程</h5>
+                        <p class="text-muted small">根據您選擇的職涯目標與能力需求，以下是推薦的課程與學分學程：</p>
+                        <div id="recommendedCoursesList">
+                            </div>
+                        <p class="text-muted small mt-4">※ 推薦結果僅供參考，實際開課資訊與選課請以輔仁大學<a href="https://signcourse.fju.edu.tw/" target="_blank" rel="noopener noreferrer">選課系統</a>及<a href="https://outline.fju.edu.tw/" target="_blank" rel="noopener noreferrer">課程大綱系統</a>公告為準。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="info-section mb-5" id="important-links-info">
+            <div class="container">
+                <h2 class="section-title text-center">重要連結與資訊</h2>
+                <div class="accordion" id="infoAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCourseRelated">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCourseRelated" aria-expanded="false" aria-controls="collapseCourseRelated" id="course-related-anchor">
+                                課程相關
+                            </button>
+                        </h2>
+                        <div id="collapseCourseRelated" class="accordion-collapse collapse" aria-labelledby="headingCourseRelated" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#course-related-anchor">
+                                            課程資訊
+                                            <p>我想查詢本學期或未來學期的課程列表、開課時間和地點。我需要了解課程大綱、教學目標和評分標準。哪裡可以找到系所提供的課程介紹？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#course-related-anchor">
+                                            彈性課程
+                                            <p>我想了解非傳統學制或學分課程的修課選項。學校是否有提供微學分、跨領域或客製化的學習機會？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCourseSelection">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCourseSelection" aria-expanded="false" aria-controls="collapseCourseSelection" id="course-selection-anchor">
+                                選課相關
+                            </button>
+                        </h2>
+                        <div id="collapseCourseSelection" class="accordion-collapse collapse" aria-labelledby="headingCourseSelection" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#course-selection-anchor">
+                                            選課作業
+                                            <p>請問選課時間、流程和注意事項是什麼？我如何加退選課程或查詢選課結果？哪裡可以找到選課系統的操作指引？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#course-selection-anchor">
+                                            校際選課
+                                            <p>我想在其他學校修讀課程，請問如何申請和辦理？校際選課的學分承認規定是什麼？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingLearningExams">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLearningExams" aria-expanded="false" aria-controls="collapseLearningExams" id="learning-exams-anchor">
+                                學習與考試
+                            </button>
+                        </h2>
+                        <div id="collapseLearningExams" class="accordion-collapse collapse" aria-labelledby="headingLearningExams" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#learning-exams-anchor">
+                                            自主學習
+                                            <p>我對自主學習計劃有興趣，該如何申請和執行？學校有哪些資源可以支持我的自主學習？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#learning-exams-anchor">
+                                            暑修作業
+                                            <p>請問暑修的申請時間、開課資訊和繳費方式？我該如何辦理暑期重修或預修課程？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#learning-exams-anchor">
+                                            期中學期考試作業
+                                            <p>我需要查詢期中/期末考試的日期、時間和考場。請問補考或延考的申請規定是什麼？哪裡可以找到考試相關的規定和注意事項？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#learning-exams-anchor">
+                                            學位考試申請作業
+                                            <p>我準備申請畢業論文口試或學位考試，請問流程和文件要求？學位考試的資格和截止日期是什麼？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCommitteesCollaboration">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCommitteesCollaboration" aria-expanded="false" aria-controls="collapseCommitteesCollaboration" id="committees-collaboration-anchor">
+                                委員會與合作
+                            </button>
+                        </h2>
+                        <div id="collapseCommitteesCollaboration" class="accordion-collapse collapse" aria-labelledby="headingCommitteesCollaboration" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#committees-collaboration-anchor">
+                                            校課程委員會
+                                            <p>我想了解學校課程規劃和審議的相關資訊。如何提交課程相關的建議或意見給委員會？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#committees-collaboration-anchor">
+                                            產業實習暨產學合作委員會
+                                            <p>我對校外實習或產學合作有興趣，請問委員會的功能和協助範圍？如何獲得產業實習的機會或資訊？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSpecificStudents">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpecificStudents" aria-expanded="false" aria-controls="collapseSpecificStudents" id="specific-students-anchor">
+                                特定學生專區
+                            </button>
+                        </h2>
+                        <div id="collapseSpecificStudents" class="accordion-collapse collapse" aria-labelledby="headingSpecificStudents" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#specific-students-anchor">
+                                            就學役男專區
+                                            <p>我是就學役男，我想了解兵役相關的學籍規定或緩徵資訊。哪裡可以找到役男在學期間的權益和義務？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingGuidanceResources">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGuidanceResources" aria-expanded="false" aria-controls="collapseGuidanceResources" id="guidance-resources-anchor">
+                                課程輔導與資源
+                            </button>
+                        </h2>
+                        <div id="collapseGuidanceResources" class="accordion-collapse collapse" aria-labelledby="headingGuidanceResources" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#guidance-resources-anchor">
+                                            課業諮詢服務
+                                            <p>我在學習上遇到困難，想預約課業輔導或諮詢。哪裡可以找到學習方法、時間管理或報告寫作的建議？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#guidance-resources-anchor">
+                                            學習資源分享
+                                            <p>我想尋找課程的補充教材或線上學習平台。學校是否有推薦的學術軟體工具或開放式課程？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#guidance-resources-anchor">
+                                            校內外競賽與活動
+                                            <p>我想知道近期有哪些學術競賽、研討會或講座可以參加？哪裡可以找到應用所學、提升專業能力的活動資訊？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCourseEvaluation">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCourseEvaluation" aria-expanded="false" aria-controls="collapseCourseEvaluation" id="course-evaluation-anchor">
+                                課程評鑑與回饋
+                            </button>
+                        </h2>
+                        <div id="collapseCourseEvaluation" class="accordion-collapse collapse" aria-labelledby="headingCourseEvaluation" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#course-evaluation-anchor">
+                                            課程意見回饋平台
+                                            <p>我想對修過的課程內容、教學品質或老師表現提出匿名建議。哪裡可以提交課程意見回饋？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#course-evaluation-anchor">
+                                            課程評鑑結果查詢
+                                            <p>我想查詢歷年課程評鑑的學生滿意度或教學優點，作為選課參考。哪裡可以看到課程評鑑的公開摘要結果？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCreditPrograms">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCreditPrograms" aria-expanded="false" aria-controls="collapseCreditPrograms" id="credit-programs-anchor">
+                                學分學程與證書
+                            </button>
+                        </h2>
+                        <div id="collapseCreditPrograms" class="accordion-collapse collapse" aria-labelledby="headingCreditPrograms" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#credit-programs-anchor">
+                                            學分學程介紹
+                                            <p>我對輔系、雙主修或跨領域學程有興趣，想了解申請資格、修課規定和課程地圖。學校提供了哪些不同領域的學分學程？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#credit-programs-anchor">
+                                            專業證照輔導
+                                            <p>我想了解與我的專業相關的業界證照考試資訊和輔導資源。學校是否有提供專業證照相關的課程或協助？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> </div>
+        </section>
+
+        <section class="info-section mb-5" id="faq-contact">
+            <div class="container">
+                <h2 class="section-title text-center">常見問題與線上客服</h2>
+                <div class="card p-4"> <div class="card-body">
+                        <p class="mb-3">輸入您的問題，我會為您推薦相關頁面：</p>
+                        <div class="question-suggestions" id="faqQuestionSuggestions">
+                            <span class="question-suggestion-box" data-query="選課">選課</span>
+                            <span class="question-suggestion-box" data-query="學分">學分</span>
+                            <span class="question-suggestion-box" data-query="考試">考試</span>
+                            <span class="question-suggestion-box" data-query="諮詢">諮詢</span>
+                            <span class="question-suggestion-box" data-query="評價">評價</span>
+                            <span class="question-suggestion-box" data-query="暑修">暑修</span>
+                            <span class="question-suggestion-box" data-query="自主學習">自主學習</span>
+                            <span class="question-suggestion-box" data-query="役男">役男</span>
+                        </div>
+                        <div class="input-group mb-3" id="faqInteractiveContainer">
+                            <input type="text" class="form-control" placeholder="例如：如何選課？" id="faqInput">
+                            <button class="btn btn-info" type="button" id="faqSearchBtn">查詢</button>
+                        </div>
+                        <div id="faqResults" class="mb-3 d-none">
+                            <p class="text-muted small">為您找到以下相關內容：</p>
+                            <ul id="faqResultList">
+                            </ul>
+                        </div>
+                        <p class="text-muted small">找不到答案？請使用課務選課小幫手獲得即時協助。</p>
+                        <a href="#" class="btn btn-outline-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#smartChatModal">前往課務選課小幫手/線上諮詢</a>
+                    </div>
+                </div>
+            </div>
+        </section> </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2025 輔仁大學課務選課系統。版權所有。</p>
+            <p>技術支援: AI 智慧服務團隊</p>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="smartChatModal" tabindex="-1" aria-labelledby="smartChatModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="smartChatModalLabel">課務選課小幫手</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="chatMessages" style="height: 300px; overflow-y: scroll; border: 1px solid #eee; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
+                        <div class="d-flex mb-2">
+                            <div class="flex-shrink-0 me-2">
+                                <img src="輔星寶-頭貼.jpg" alt="輔星寶" class="rounded-circle" width="30" height="30">
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="p-2 bg-light rounded shadow-sm" style="max-width: 80%;">
+                                    大家好！我是輔星寶，輔仁大學的AI吉祥物。我會穿梭在校園各個線上平台和AI智能服務中，為你解答學術行政相關問題，因為我可是掌握了所有資訊喔！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mt-3">
+                        <input type="text" class="form-control" placeholder="輸入您的問題..." id="chatInput">
+                        <button class="btn btn-primary" type="button" id="sendChatBtn">送出</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-lg rounded-circle" id="smartChatBtn" data-bs-toggle="modal" data-bs-target="#smartChatModal" title="課務選課小幫手">
+        <img src="輔星寶-頭貼.jpg" alt="輔星寶" class="rounded-circle">
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Smooth scrolling for navigation links and internal section links
+            $('a[href^="#"]').on('click', function(event) {
+                // Exclude links that trigger modals or external links
+                if ($(this).data('bs-toggle') === 'modal' || !this.hash) {
+                    return;
+                }
+
+                var target = $(this.hash);
+                if (target.length) {
+                    event.preventDefault();
+                    // Adjust for fixed navbar height AND potentially the accordion header height if the target is an accordion header.
+                    var offset = $('.navbar').outerHeight();
+                    if (target.hasClass('accordion-button')) {
+                        // For accordion buttons, scroll to the section container, not just the button,
+                        // to ensure the full context (accordion item) is visible.
+                        // The anchor is on the button, but we want to show the whole accordion section.
+                        var sectionOffset = $('#important-links-info').offset().top; // Or relevant section if it's not the main accordion section
+                        $('html, body').animate({
+                            scrollTop: sectionOffset - offset
+                        }, 800);
+                    } else {
+                        $('html, body').animate({
+                            scrollTop: target.offset().top - offset
+                        }, 800);
+                    }
+                }
+            });
+
+            // Simulate AI Search (Global Search Bar)
+            $('#globalSearchBtn').on('click', function() {
+                var searchTerm = $('#globalSearchInput').val().trim();
+                if (searchTerm) {
+                    alert('AI 正在為您搜尋 "' + searchTerm + '" 相關資訊... (實際功能需連結後端 AI 服務)');
+                } else {
+                    alert('請輸入搜尋關鍵字！');
+                }
+            });
+
+            // Simulate AI Recommendation (Top Recommendation Section)
+            $('#getAiRecommendations').on('click', function() {
+                var resultsDiv = $('#aiRecommendationResults');
+                resultsDiv.removeClass('d-none'); // Show the results div
+                resultsDiv.hide().fadeIn(800); // Fade in effect
+            });
+
+            // --- 智能客服互動 (Modal) ---
+            $('#sendChatBtn').on('click', function() {
+                var chatInput = $('#chatInput');
+                var message = chatInput.val().trim();
+                if (message) {
+                    var chatMessages = $('#chatMessages');
+                    // Add user message
+                    chatMessages.append(
+                        '<div class="d-flex justify-content-end mb-2">' +
+                            '<div class="flex-grow-1 text-end">' +
+                                '<div class="user-chat-bubble">' + message + '</div>' +
+                            '</div>' +
+                            '<div class="flex-shrink-0 ms-2">' +
+                                '<div class="user-avatar">您</div>' +
+                            '</div>' +
+                        '</div>'
+                    );
+                    chatInput.val(''); // Clear input
+                    chatMessages.scrollTop(chatMessages[0].scrollHeight); // Scroll to bottom
+
+                    // Simulate AI response (replace with actual AJAX call to backend AI)
+                    setTimeout(function() {
+                        var aiResponse = "很抱歉，這是一個模擬回覆。實際的課務選課小幫手功能需要連接後端 AI 服務才能為您提供幫助。";
+                        // Updated response links to point to the new #important-links-info section and the specific anchors within it
+                        if (message.includes("選課")) {
+                            aiResponse = "關於選課，請問您想了解哪方面的資訊呢？例如：選課時間、選課流程，或是課程加退選？建議您參考<a href='#course-selection-anchor' class='alert-link'>選課相關</a>的內容。";
+                        } else if (message.includes("學分")) {
+                            aiResponse = "學分相關問題，您可以參考<a href='#credit-programs-anchor' class='alert-link'>學分學程與證書</a>或<a href='#learning-exams-anchor' class='alert-link'>學習與考試</a>頁面。";
+                        } else if (message.includes("考試")) {
+                            aiResponse = "考試相關資訊，請參考<a href='#learning-exams-anchor' class='alert-link'>學習與考試</a>頁面。";
+                        } else if (message.includes("諮詢") || message.includes("輔導")) {
+                            aiResponse = "如果您需要課業諮詢，請查看<a href='#guidance-resources-anchor' class='alert-link'>課程輔導與資源</a>。";
+                        } else if (message.includes("評價") || message.includes("回饋")) {
+                            aiResponse = "您可以在<a href='#course-evaluation-anchor' class='alert-link'>課程評鑑與回饋</a>提供意見。";
+                        } else if (message.includes("暑修")) {
+                            aiResponse = "關於暑修作業，請參考<a href='#learning-exams-anchor' class='alert-link'>學習與考試</a>中的「暑修作業」。";
+                        } else if (message.includes("自主學習")) {
+                            aiResponse = "關於自主學習，請參考<a href='#learning-exams-anchor' class='alert-link'>學習與考試</a>中的「自主學習」。";
+                        } else if (message.includes("役男")) {
+                            aiResponse = "關於就學役男相關資訊，請參考<a href='#specific-students-anchor' class='alert-link'>特定學生專區</a>。";
+                        }
+
+
+                        chatMessages.append(
+                            '<div class="d-flex mb-2">' +
+                                '<div class="flex-shrink-0 me-2">' +
+                                    '<img src="輔星寶-頭貼.jpg" alt="輔星寶" class="rounded-circle" width="30" height="30">' +
+                                '</div>' +
+                                '<div class="flex-grow-1">' +
+                                    '<div class="p-2 bg-light rounded shadow-sm" style="max-width: 80%;">'+ aiResponse +'</div>' +
+                                '</div>' +
+                            '</div>'
+                        );
+                        chatMessages.scrollTop(chatMessages[0].scrollHeight); // Scroll to bottom
+                    }, 1000);
+                }
+            });
+
+            // Allow sending chat message with Enter key
+            $('#chatInput').keypress(function(e) {
+                if(e.which == 13) { // Enter key pressed
+                    $('#sendChatBtn').click();
+                }
+            });
+
+            // --- FAQ 問題串接子網頁邏輯 (for the remaining card's interactive search) ---
+            // Note: The hrefs here now point to the specific anchors (accordion buttons) within the new "重要連結與資訊" section
+            const subpageMappings = {
+                "選課": [
+                    { text: "選課作業", href: "#course-selection-anchor" },
+                    { text: "校際選課", href: "#course-selection-anchor" },
+                    { text: "課程資訊", href: "#course-related-anchor" }
+                ],
+                "課程": [
+                    { text: "課程資訊", href: "#course-related-anchor" },
+                    { text: "彈性課程", href: "#course-related-anchor" },
+                    { text: "課程輔導與資源", href: "#guidance-resources-anchor" },
+                    { text: "課程評鑑與回饋", href: "#course-evaluation-anchor" }
+                ],
+                "考試": [
+                    { text: "期中學期考試作業", href: "#learning-exams-anchor" },
+                    { text: "學位考試申請作業", href: "#learning-exams-anchor" }
+                ],
+                "學分": [
+                    { text: "學分學程介紹", href: "#credit-programs-anchor" },
+                    // "畢業門檻查詢" - This was a placeholder, ensuring it links to a relevant section
+                    { text: "學習與考試", href: "#learning-exams-anchor" } 
+                ],
+                "暑修": [
+                    { text: "暑修作業", href: "#learning-exams-anchor" }
+                ],
+                "自主學習": [
+                    { text: "自主學習", href: "#learning-exams-anchor" }
+                ],
+                "證照": [
+                    { text: "專業證照輔導", href: "#credit-programs-anchor" }
+                ],
+                "諮詢": [
+                    { text: "課業諮詢服務", href: "#guidance-resources-anchor" }
+                ],
+                "資源": [
+                    { text: "學習資源分享", href: "#guidance-resources-anchor" },
+                    { text: "校內外競賽與活動", href: "#guidance-resources-anchor" }
+                ],
+                "回饋": [
+                    { text: "課程意見回饋平台", href: "#course-evaluation-anchor" }
+                ],
+                "評鑑": [
+                    { text: "課程評鑑結果查詢", href: "#course-evaluation-anchor" }
+                ],
+                "雙主修": [
+                    { text: "學分學程介紹", href: "#credit-programs-anchor" }
+                ],
+                "輔系": [
+                    { text: "學分學程介紹", href: "#credit-programs-anchor" }
+                ],
+                "役男": [
+                    { text: "就學役男專區", href: "#specific-students-anchor" }
+                ],
+                "委員會": [
+                    { text: "校課程委員會", href: "#committees-collaboration-anchor" },
+                    { text: "產業實習暨產學合作委員會", href: "#committees-collaboration-anchor" }
+                ],
+                "合作": [
+                    { text: "產業實習暨產學合作委員會", href: "#committees-collaboration-anchor" }
+                ]
+            };
+
+            $('#faqSearchBtn').on('click', function() {
+                performFaqSearch();
+            });
+
+            $('#faqInput').keypress(function(e) {
+                if(e.which == 13) { // Enter key pressed
+                    performFaqSearch();
+                }
+            });
+
+            // Function to perform FAQ search
+            function performFaqSearch(queryFromSuggestion = null) {
+                var query = queryFromSuggestion || $('#faqInput').val().trim();
+                var faqResultsContainer = $('#faqResults');
+                var faqResultList = $('#faqResultList');
+                faqResultList.empty(); // Clear previous results
+
+                if (query) {
+                    let foundLinks = new Set();
+                    let hasResults = false;
+
+                    // Open relevant accordion sections if a link is found
+                    let uniqueAccordionTargets = new Set();
+
+                    for (const keyword in subpageMappings) {
+                        if (query.includes(keyword) || new RegExp(keyword, 'i').test(query)) {
+                            subpageMappings[keyword].forEach(link => {
+                                if (!foundLinks.has(link.href + link.text)) {
+                                    faqResultList.append('<li><a href="' + link.href + '">' + link.text + '</a></li>');
+                                    foundLinks.add(link.href + link.text);
+                                    hasResults = true;
+
+                                    // Extract target collapse ID from href and add to set
+                                    const accordionTargetId = $(link.href).data('bs-target');
+                                    if (accordionTargetId) {
+                                        uniqueAccordionTargets.add(accordionTargetId);
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                    if (hasResults) {
+                        faqResultsContainer.removeClass('d-none');
+                        // Open relevant accordion sections
+                        uniqueAccordionTargets.forEach(targetId => {
+                            $(targetId).collapse('show');
+                        });
+
+                    } else {
+                        faqResultList.append('<li>很抱歉，沒有找到直接相關的資訊。建議您嘗試其他關鍵字，或點擊下方的「前往課務選課小幫手/線上諮詢」以獲得更詳細的協助。</li>');
+                        faqResultsContainer.removeClass('d-none');
+                    }
+                } else {
+                    faqResultList.append('<li>請輸入您的問題，例如：「如何選課？」或「學分如何計算？」</li>');
+                    faqResultsContainer.removeClass('d-none');
+                }
+                // Scroll to the FAQ results section after search
+                $('html, body').animate({
+                    scrollTop: faqResultsContainer.offset().top - $('.navbar').outerHeight()
+                }, 500);
+            }
+
+            // Click event for question suggestion boxes
+            $('.question-suggestion-box').on('click', function() {
+                var suggestedQuery = $(this).data('query');
+                $('#faqInput').val(suggestedQuery); // Set the input field value
+                performFaqSearch(suggestedQuery); // Perform search with the suggested query
+            });
+
+            // --- 職涯導向式課程推薦邏輯 ---
+
+            // Mock Data (模擬數據 - 實際應用中會從後端獲取)
+            const fjuCareerData = {
+                "軟體工程師": {
+                    abilities: ["程式設計 (Python/Java)", "資料結構與演算法", "資料庫管理", "網頁前端開發", "物件導向程式設計", "軟體測試"],
+                    courses: [
+                        { name: "程式設計概論", code: "CSI101", dept: "資工系", credits: 3, tags: ["程式設計", "Python"], outlineUrl: "https://outline.fju.edu.tw/search?course=CSI101", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=CSI101", program: null },
+                        { name: "資料結構", code: "CSI201", dept: "資工系", credits: 3, tags: ["資料結構與演算法", "C++"], outlineUrl: "https://outline.fju.edu.tw/search?course=CSI201", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=CSI201", program: null },
+                        { name: "演算法設計", code: "CSI301", dept: "資工系", credits: 3, tags: ["資料結構與演算法"], outlineUrl: "https://outline.fju.edu.tw/search?course=CSI301", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=CSI301", program: null },
+                        { name: "資料庫系統", code: "CSI305", dept: "資工系", credits: 3, tags: ["資料庫管理", "SQL"], outlineUrl: "https://outline.fju.edu.tw/search?course=CSI305", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=CSI305", program: null },
+                        { name: "網頁程式設計", code: "CSI310", dept: "資工系", credits: 3, tags: ["網頁前端開發", "JavaScript", "HTML", "CSS"], outlineUrl: "https://outline.fju.edu.tw/search?course=CSI310", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=CSI310", program: null },
+                        { name: "人工智慧學程", code: "AI_PROG", dept: "跨領域學程", credits: 18, tags: ["程式設計", "機器學習", "深度學習"], outlineUrl: "https://outline.fju.edu.tw/search?program=AI_PROG", signcourseUrl: "https://signcourse.fju.edu.tw/program?id=AI_PROG", program: "學分學程" }
+                    ]
+                },
+                "數據分析師": {
+                    abilities: ["統計學", "程式設計 (Python/R)", "資料庫管理 (SQL)", "機器學習", "數據視覺化", "大數據處理"],
+                    courses: [
+                        { name: "統計學", code: "MATH201", dept: "數學系", credits: 3, tags: ["統計學", "數據分析"], outlineUrl: "https://outline.fju.edu.tw/search?course=MATH201", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=MATH201", program: null },
+                        { name: "應用統計學", code: "STAT202", dept: "統計系", credits: 3, tags: ["統計學", "數據分析", "R"], outlineUrl: "https://outline.fju.edu.tw/search?course=STAT202", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=STAT202", program: null },
+                        { name: "Python 數據分析", code: "DSF301", dept: "資管系", credits: 3, tags: ["程式設計", "數據分析", "Python"], outlineUrl: "https://outline.fju.edu.tw/search?course=DSF301", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=DSF301", program: null },
+                        { name: "資料庫系統", code: "CSI305", dept: "資工系", credits: 3, tags: ["資料庫管理", "SQL"], outlineUrl: "https://outline.fju.edu.tw/search?course=CSI305", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=CSI305", program: null },
+                        { name: "機器學習概論", code: "AI302", dept: "資工系", credits: 3, tags: ["機器學習", "數據分析"], outlineUrl: "https://outline.fju.edu.tw/search?course=AI302", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=AI302", program: null },
+                        { name: "大數據分析應用學程", code: "BIG_DATA_PROG", dept: "跨領域學程", credits: 18, tags: ["大數據處理", "數據視覺化", "機器學習"], outlineUrl: "https://outline.fju.edu.tw/search?program=BIG_DATA_PROG", signcourseUrl: "https://signcourse.fju.edu.tw/program?id=BIG_DATA_PROG", program: "學分學程" }
+                    ]
+                },
+                "行銷企劃": {
+                    abilities: ["市場分析", "行銷策略", "內容行銷", "社群媒體經營", "數據分析基礎", "專案管理"],
+                    courses: [
+                        { name: "行銷學", code: "MKT201", dept: "企管系", credits: 3, tags: ["行銷策略", "市場分析"], outlineUrl: "https://outline.fju.edu.tw/search?course=MKT201", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=MKT201", program: null },
+                        { name: "消費者行為", code: "MKT302", dept: "企管系", credits: 3, tags: ["市場分析"], outlineUrl: "https://outline.fju.edu.tw/search?course=MKT302", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=MKT302", program: null },
+                        { name: "數位行銷", code: "MKT305", dept: "企管系", credits: 3, tags: ["內容行銷", "社群媒體經營"], outlineUrl: "https://outline.fju.edu.tw/search?course=MKT305", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=MKT305", program: null },
+                        { name: "社群網路分析", code: "DSF305", dept: "資管系", credits: 3, tags: ["社群媒體經營", "數據分析基礎"], outlineUrl: "https://outline.fju.edu.tw/search?course=DSF305", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=DSF305", program: null },
+                        { name: "專案管理概論", code: "PM201", dept: "工管系", credits: 3, tags: ["專案管理"], outlineUrl: "https://outline.fju.edu.tw/search?course=PM201", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=PM201", program: null }
+                    ]
+                },
+                "會計師": {
+                    abilities: ["會計學原理", "中級會計學", "成本與管理會計", "審計學", "稅務法規", "資訊系統應用"],
+                    courses: [
+                        { name: "會計學", code: "ACC101", dept: "會計系", credits: 3, tags: ["會計學原理"], outlineUrl: "https://outline.fju.edu.tw/search?course=ACC101", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=ACC101", program: null },
+                        { name: "中級會計學(一)", code: "ACC201", dept: "會計系", credits: 3, tags: ["中級會計學"], outlineUrl: "https://outline.fju.edu.tw/search?course=ACC201", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=ACC201", program: null },
+                        { name: "成本會計", code: "ACC301", dept: "會計系", credits: 3, tags: ["成本與管理會計"], outlineUrl: "https://outline.fju.edu.tw/search?course=ACC301", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=ACC301", program: null },
+                        { name: "審計學", code: "ACC401", dept: "會計系", credits: 3, tags: ["審計學"], outlineUrl: "https://outline.fju.edu.tw/search?course=ACC401", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=ACC401", program: null },
+                        { name: "稅務法規", code: "ACC402", dept: "會計系", credits: 3, tags: ["稅務法規"], outlineUrl: "https://outline.fju.edu.tw/search?course=ACC402", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=ACC402", program: null }
+                    ]
+                },
+                "UI/UX 設計師": {
+                    abilities: ["使用者研究", "使用者體驗設計 (UX)", "使用者介面設計 (UI)", "原型製作", "設計軟體應用 (Figma/Adobe XD)", "視覺溝通"],
+                    courses: [
+                        { name: "人機互動", code: "CSI330", dept: "資工系", credits: 3, tags: ["使用者體驗設計 (UX)", "使用者介面設計 (UI)"], outlineUrl: "https://outline.fju.edu.tw/search?course=CSI330", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=CSI330", program: null },
+                        { name: "多媒體設計", code: "ART205", dept: "應美系", credits: 3, tags: ["視覺溝通", "設計軟體應用"], outlineUrl: "https://outline.fju.edu.tw/search?course=ART205", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=ART205", program: null },
+                        { name: "服務設計", code: "MGT308", dept: "資管系", credits: 3, tags: ["使用者研究", "使用者體驗設計 (UX)"], outlineUrl: "https://outline.fju.edu.tw/search?course=MGT308", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=MGT308", program: null },
+                        { name: "介面設計與實作", code: "DM301", dept: "數位媒體學程", credits: 3, tags: ["使用者介面設計 (UI)", "原型製作"], outlineUrl: "https://outline.fju.edu.tw/search?course=DM301", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=DM301", program: null },
+                        { name: "設計思考與創新", code: "MKT405", dept: "企管系", credits: 3, tags: ["使用者研究"], outlineUrl: "https://outline.fju.edu.tw/search?course=MKT405", signcourseUrl: "https://signcourse.fju.edu.tw/query?course=MKT405", program: null }
+                    ]
+                }
+            };
+
+            let selectedCareerGoal = "";
+            let currentAbilities = new Set(); // To store selected/input abilities
+
+            // Event listener for career goal selection
+            $('#careerGoalSelect').on('change', function() {
+                selectedCareerGoal = $(this).val();
+                const careerDetailsSection = $('#careerDetails');
+                const customInputGroup = $('#customCareerInputGroup');
+                const displayGoalSpan = $('#displayCareerGoal');
+                const requiredAbilitiesDiv = $('#requiredAbilities');
+                currentAbilities.clear(); // Clear previous abilities
+
+                if (selectedCareerGoal === "自行輸入") {
+                    careerDetailsSection.addClass('d-none');
+                    customInputGroup.removeClass('d-none');
+                } else if (selectedCareerGoal !== "") {
+                    customInputGroup.addClass('d-none');
+                    displayGoalSpan.text(selectedCareerGoal);
+                    careerDetailsSection.removeClass('d-none');
+                    populateAbilities(selectedCareerGoal);
+                } else {
+                    careerDetailsSection.addClass('d-none');
+                    customInputGroup.addClass('d-none');
+                }
+                $('#careerCourseResults').addClass('d-none'); // Hide results when goal changes
+            });
+
+            // Event listener for custom career input confirmation
+            $('#confirmCustomCareerBtn').on('click', function() {
+                selectedCareerGoal = $('#customCareerInput').val().trim();
+                if (selectedCareerGoal) {
+                    $('#customCareerInputGroup').addClass('d-none');
+                    $('#displayCareerGoal').text(selectedCareerGoal);
+                    $('#careerDetails').removeClass('d-none');
+                    populateAbilities(selectedCareerGoal, true); // Populate with default if no specific data
+                } else {
+                    alert('請輸入您的職涯目標！');
+                }
+            });
+
+            // Function to populate abilities based on selected career goal
+            function populateAbilities(goal, isCustom = false) {
+                const requiredAbilitiesDiv = $('#requiredAbilities');
+                requiredAbilitiesDiv.empty(); // Clear existing tags
+
+                let abilitiesToShow = [];
+                if (fjuCareerData[goal] && fjuCareerData[goal].abilities) {
+                    abilitiesToShow = fjuCareerData[goal].abilities;
+                } else if (isCustom) {
+                    // For custom goals, provide some generic suggestions or leave empty for user input
+                    abilitiesToShow = ["溝通能力", "解決問題", "團隊合作", "創新思考"];
+                }
+
+                abilitiesToShow.forEach(ability => {
+                    addAbilityTag(ability);
+                });
+            }
+
+            // Function to add an ability tag
+            function addAbilityTag(abilityText) {
+                if (!currentAbilities.has(abilityText)) {
+                    currentAbilities.add(abilityText);
+                    const tagHtml = `<span class="ability-tag">${abilityText} <button type="button" class="btn-close btn-close-white ms-1" aria-label="移除能力" data-ability="${abilityText}"></button></span>`;
+                    $('#requiredAbilities').append(tagHtml);
+                }
+            }
+
+            // Event listener for adding custom abilities
+            $('#addAbilityBtn').on('click', function() {
+                const newAbility = $('#additionalAbilityInput').val().trim();
+                if (newAbility) {
+                    addAbilityTag(newAbility);
+                    $('#additionalAbilityInput').val(''); // Clear input
+                }
+            });
+
+            // Event listener for removing ability tags
+            $('#requiredAbilities').on('click', '.btn-close', function() {
+                const abilityToRemove = $(this).data('ability');
+                currentAbilities.delete(abilityToRemove);
+                $(this).closest('.ability-tag').remove();
+            });
+
+            // Event listener for searching courses based on career and abilities
+            $('#searchCareerCoursesBtn').on('click', function() {
+                const recommendedCoursesList = $('#recommendedCoursesList');
+                recommendedCoursesList.empty(); // Clear previous results
+
+                const selectedAbilities = Array.from(currentAbilities);
+                let relevantCourses = [];
+
+                // Simple matching logic: find courses where any of their tags match selected abilities
+                // In a real AI system, this would be a much more complex matching/ranking algorithm
+                if (fjuCareerData[selectedCareerGoal]) {
+                     fjuCareerData[selectedCareerGoal].courses.forEach(course => {
+                        let matched = false;
+                        selectedAbilities.forEach(ability => {
+                            if (course.tags && course.tags.some(tag => tag.includes(ability))) {
+                                matched = true;
+                            }
+                        });
+                        if (matched) {
+                            relevantCourses.push(course);
+                        }
+                    });
+                } else {
+                    // Fallback for custom career goal or if no specific data exists
+                    // Iterate through all courses in fjuCareerData (across all predefined careers)
+                    Object.values(fjuCareerData).forEach(careerInfo => {
+                        careerInfo.courses.forEach(course => {
+                            let matched = false;
+                            selectedAbilities.forEach(ability => {
+                                if (course.tags && course.tags.some(tag => tag.includes(ability))) {
+                                    matched = true;
+                                }
+                            });
+                            if (matched && !relevantCourses.some(c => c.code === course.code)) { // Avoid duplicates
+                                relevantCourses.push(course);
+                            }
+                        });
+                    });
+                }
+                
+
+                if (relevantCourses.length > 0) {
+                    relevantCourses.forEach(course => {
+                        const tagsHtml = course.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('');
+                        const programBadge = course.program ? `<span class="badge bg-info ms-2">${course.program}</span>` : '';
+                        recommendedCoursesList.append(
+                            `<div class="card course-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${course.name} <small class="text-muted">(${course.code})</small>${programBadge}</h5>
+                                    <p class="card-text mb-1">開課系所: ${course.dept} | 學分: ${course.credits}</p>
+                                    <p class="card-text">${tagsHtml}</p>
+                                    <a href="${course.outlineUrl}" target="_blank" class="btn btn-outline-fju-blue btn-sm me-2">查看課程大綱</a>
+                                    <a href="${course.signcourseUrl}" target="_blank" class="btn btn-outline-success btn-sm">查詢開課</a>
+                                </div>
+                            </div>`
+                        );
+                    });
+                } else {
+                    recommendedCoursesList.append('<p>很抱歉，沒有找到符合您條件的課程或學程。請嘗試調整您的職涯目標或能力需求。</p>');
+                }
+
+                $('#careerCourseResults').removeClass('d-none');
+                // Scroll to results
+                $('html, body').animate({
+                    scrollTop: $('#careerCourseResults').offset().top - $('.navbar').outerHeight()
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
