@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>輔仁大學教學發展服務平台</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --fju-blue: #004B8D;
+      --fju-light-grey: #f8f9fa;
+      --fju-dark-grey: #343a40;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: var(--fju-light-grey);
+      color: var(--fju-dark-grey);
+      margin: 0;
+    }
+    main {
+      flex: 1;
+    }
+    .navbar {
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,.05);
+    }
+    .hero {
+      background-color: var(--fju-blue);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+    .tab-btn {
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .tab-content-section {
+      display: none;
+      padding: 20px;
+      background: white;
+      border-radius: 6px;
+      box-shadow: 0 4px 8px rgba(0,0,0,.05);
+      margin-top: 20px;
+    }
+    .tab-content-section.active { display: block; }
+    h2 { color: var(--fju-blue); margin-bottom: 16px; }
+    ul { list-style: none; padding: 0; }
+    ul li { margin-bottom: 8px; }
+    a { text-decoration: none; color: var(--fju-dark-grey); }
+    a:hover { color: var(--fju-blue); }
+    footer {
+      background: var(--fju-dark-grey);
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-light">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">輔仁大學教務處</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <h1 class="display-5">教師發展與教學資源中心</h1>
+    </div>
+  </section>
+
+  <main class="container py-4">
+    <div>
+      <button class="btn btn-outline-primary tab-btn active" data-target="tab-center">教發中心</button>
+      <button class="btn btn-outline-primary tab-btn" data-target="tab-award">教學獎勵</button>
+      <button class="btn btn-outline-primary tab-btn" data-target="tab-interaction">教學互動與評量</button>
+      <button class="btn btn-outline-primary tab-btn" data-target="tab-assistant">教學助理</button>
+      <button class="btn btn-outline-primary tab-btn" data-target="tab-digital">數位學習與遠距教學</button>
+      <button class="btn btn-outline-primary tab-btn" data-target="tab-resource">教學資源借用</button>
+      <button class="btn btn-outline-primary tab-btn" data-target="tab-plan">高教深耕計畫</button>
+      <button class="btn btn-outline-primary tab-btn" data-target="tab-contact">聯絡我們</button>
+    </div>
+
+    <!-- 教發中心 -->
+    <section id="tab-center" class="tab-content-section active">
+      <h2>教發中心</h2>
+      <p>本校為促進教師專業發展，整合教學資源，追求教學卓越，建設精緻、優質且具前瞻性的一流大學，設置「教師發展與教學資源中心」(Faculty Development & Instructional Resources Center)。本中心設立之主要目的在提供全校教師發展並創新其教學、設計有效學習環境並豐富其個人研究與專業生涯所需的協助與支援活動。因此，中心負責設計與規劃支持全校性教師提升專業表現的訓練或發展活動，如下：</p>
+      <ul>
+        <li>1.設計「高教深耕計畫」</li>
+        <li>2.鼓勵教師精進教學</li>
+        <li>3.推動教學互動評量</li>
+        <li>4.安排教學助理專業培訓</li>
+        <li>5.規劃教師專業成長課程</li>
+      </ul>
+      <p>教師發展與教學資源中心網站：<a href="http://www.teachers.fju.edu.tw/" target="_blank">http://www.teachers.fju.edu.tw/</a></p>
+    </section>
+
+    <!-- 教學獎勵 -->
+    <section id="tab-award" class="tab-content-section">
+      <h2>教學獎勵</h2>
+      <p><strong>一、教學成果獎勵</strong></p>
+      <p>為提升教學品質、積極改進教學方法與內容，並形成教學社群，輔仁大學推動教學成果獎勵，每學期開放申請，由「教學設計與互動評量委員會」進行申請案件審核，並舉辦教學成果獲獎教師分享活動，促進教師間在教學目標、策略等方面之對話，以議題導向規劃跨領域教師教學經驗分享。</p>
+      <ul>
+        <li>1.<a href="http://docs.academic.fju.edu.tw/edulaw/teachfruit.pdf" target="_blank"><u>教學成果獎辦法</u></a></li>
+        <li>2.<a href="http://docs.academic.fju.edu.tw/form/teachapply.odt" target="_blank"><u>教學成果獎申請表</u></a></li>
+      </ul>
+      <p><strong>二、教師教學績優獎</strong></p>
+      <p> 為鼓勵教學優秀教師，教務處每年發文至各院，由系院推薦優秀教師，並經過教評會三級三審制度，遴選獲教師教學績優教師。並於校務會議由校長親自授獎，鼓勵教師持續於教學領域的精進。</p>
+      <ul>
+        <li>1.<a href="http://docs.academic.fju.edu.tw/edulaw/%E6%95%99%E5%B8%AB%E6%95%99%E5%AD%B8%E7%B8%BE%E5%84%AA%E7%8D%8E%E5%8B%B5%E8%BE%A6%E6%B3%95.pdf" target="_blank"><u>教師教學績優獎獎勵辦法</u></a></li>
+        <li>2.<a href="http://docs.academic.fju.edu.tw/form/teachrecomm.odt" target="_blank"><u>教學績優教師獎勵推薦表</u></a></li>
+      </ul>
+    </section>
+
+    <!-- 互動與課程評量 -->
+    <section id="tab-interaction" class="tab-content-section">
+      <h2>教學互動與課程評量</h2>
+      <p>協助課程改善與促進師生互動，精進教學成效。分析教學評量結果與教師教學成效之間之關連性，提供系所完整參考資訊，改進提昇教學。</p>
+      <ul>
+        <li>1.<a href="http://docs.academic.fju.edu.tw/edulaw/%E6%95%99%E5%AD%B8%E8%A9%95%E9%87%8F%E8%BE%A6%E6%B3%95.pdf" target="_blank"><u>輔仁大學教學評量辦法</u></a></li>
+        <li>2.<a href="http://docs.academic.fju.edu.tw/edulaw/%E6%95%99%E5%AD%B8%E8%A8%AD%E8%A8%88%E8%88%87%E4%BA%92%E5%8B%95%E8%A9%95%E9%87%8F%E5%A7%94%E5%93%A1%E6%9C%83%E8%A8%AD%E7%BD%AE%E8%BE%A6%E6%B3%95.pdf" target="_blank"><u>輔仁大學教學設計與互動評量委員會設置辦法</u></a></li>
+        <li>3-1.<a href="https://docsacademic.fju.edu.tw/form/%E6%95%99%E5%AD%B8%E8%A9%95%E9%87%8F%E8%B3%87%E6%96%99%E9%9C%80%E6%B1%82%E7%94%B3%E8%AB%8B%E6%9B%B8.docx" target="_blank"><u>教學評量資料需求申請書</u></a></li>
+        <li>3-2.<a href="https://docsacademic.fju.edu.tw/form/%E6%95%99%E5%AD%B8%E8%A9%95%E9%87%8F%E8%B3%87%E6%96%99%E9%9C%80%E6%B1%82%E7%94%B3%E8%AB%8B%E6%9B%B8.odt" target="_blank"><u>教學評量資料需求申請書（odt）</u></a></li>
+      </ul>
+      <p>輔仁大學教學評量入口網：</p>
+     <ul>
+        <li>1.學生端：<a href="https://assessment.fju.edu.tw/" target="_blank"><u>https://assessment.fju.edu.tw/</u></a></li>
+        <li>2.教職員端：<a href="https://assessmentmgt.fju.edu.tw/" target="_blank"><u>https://assessmentmgt.fju.edu.tw/</u></a></li>
+     </ul>
+    </section>
+
+    <!-- 教學助理 -->
+    <section id="tab-assistant" class="tab-content-section">
+      <h2>教學助理</h2>
+      <p>依課程需求配置教學助理，以減輕授課教師負擔，協助修課學生學習，規劃辦理教學助理培訓活動，提升教學助理素質，處理教學助理助學金發放事宜，控管執行進度及成效考核。</p>
+      <ul>
+        <li>1.<a href="http://docs.academic.fju.edu.tw/edulaw/tasetreg.pdf" target="_blank"><u>輔仁大學教學助理設置辦法</u></a></li>
+        <li>2.<a href="http://docs.academic.fju.edu.tw/form/%E5%AD%B8%E9%99%A2%E5%9E%8BTA%E7%B4%84%E7%94%A8%E8%B3%87%E6%96%99%E8%A1%A8.doc" target="_blank"><u>學院型教學助理約用資料表</u></a></li>
+        <li>3.<a href="http://docs.academic.fju.edu.tw/form/%E5%AD%B8%E9%99%A2%E5%9E%8B%E8%BC%94%E5%B0%8ETA%E8%AB%8B%E9%A0%98%E6%B8%85%E5%86%8A.doc" target="_blank"><u>學院型學習輔導教學助理清冊</u></a></li>
+        <li>4.<a href="http://docs.academic.fju.edu.tw/form/%E5%AD%B8%E9%99%A2%E5%9E%8BTA%E5%B7%A5%E4%BD%9C%E6%97%A5%E8%AA%8C%E6%A0%B8%E9%8A%B7%E7%94%A8.doc" target="_blank"><u>學院型教學助理工作日誌_核銷用</u></a></li>
+      </ul>
+    </section>
+
+    <!-- 數位學習 -->
+    <section id="tab-digital" class="tab-content-section">
+      <h2>數位學習與遠距教學</h2>
+      <p><strong>一、遠距教學課程</strong></p>
+      <p>本校推動遠距教學課程，設有數位學習與遠距教學委員會規劃本校數位學習應用之發展方向，審核全校遠距教學課程等，與媒體中心、外語教學資源中心共同合作，提供全校數位學習之全面性服務。</p>
+     
+      <ul>
+        <li>詳見說明：<a href="https://reurl.cc/aN5KKD" target="_blank"><u>https://reurl.cc/aN5KKD</u></a></li>
+        <li>本校遠距教學平台：<a href="https://elearn2.fju.edu.tw/" target="_blank"><u>https://elearn2.fju.edu.tw/</u></a></li>
+     </ul>
+
+      <p><strong>二、磨課師課程計畫</strong></p>
+      <p>本校自103年參與教育部磨課師補助計畫，連續獲得教育部補助，至今已推出多門單一及系列課程，並持續活化應用課程。</p>
+      <p>詳見說明：<a href="https://reurl.cc/kLVKAG" target="_blank"><u>https://reurl.cc/kLVKAG</u></a></p>
+
+      <p><strong>三、開放式課程推廣</strong></p>
+      <p>本校開放課程計畫於2008年啟動，推廣精進教學與創新教學的成果、促使社會均衡發展及增進人類福祉。其課程由教師發展與教學資源中心統籌製作，發展至今已有多門課程。</p>
+      <p>開放式課程網站：<a href="http://bit.ly/fjcuocw" target="_blank"><u>http://bit.ly/fjcuocw</u></a></p>
+    </section>
+
+    <!-- 資源借用 -->
+    <section id="tab-resource" class="tab-content-section">
+      <h2>教學資源借用</h2>
+      <p>校內教學資源之第一線窗口，提供校內教師教學資源方面之諮詢服務，教學資源使用介紹與推廣，中心提供教師各類教學器材(如攝影機等)之借用，專人協助製作教材之困難排除，以協助教師有關於教材數位化之工作與需求。</p>
+      
+      <ul>
+        <li>1.<a href="http://www.teachers.fju.edu.tw/FDIRC/index.php/2018-03-05-03-25-50/category/22-2018-03-05-06-39-25?download=61:2018-03-05-06-37-16" target="_blank"><u>場地借用申請</u></a></li>
+        <li>2.<a href="http://www.teachers.fju.edu.tw/FDIRC/index.php/2018-03-05-03-25-50/category/22-2018-03-05-06-39-25?download=63:2018-03-05-06-38-18" target="_blank"><u>器材借用申請</u></a></li>
+     </ul>
+
+      <p>或電洽借用（聯絡人：多媒體會議室，分機2328 / 設備借用-王偉丞，分機6248）。</p>
+    </section>
+
+    <!-- 深耕計畫 -->
+    <section id="tab-plan" class="tab-content-section">
+      <h2>高教深耕計畫</h2>
+      <h5><strong>深耕計畫簡介</strong></h5>
+      <p>本校深耕計畫植基於中長程目標「成為一所專業發展與人文並重之國際化天主教大學」，以「醫療健康」與「創意設計」之校特色發展為主幹，在此概念下衍生出五條脈絡，包括「教學精進與創新」、「深化學用合一」、「鼓勵自主學習」、「重視人文關懷」與「深化國際涵養」。</p>
+      <p><strong>(一)發展校特色</strong></p>
+      <p> 隨著本校創意設計中心及附設醫院均於今年陸續開幕，加上12學院豐沛的院系所資源，本校未來將持續積極發展「健康醫療」及「創意設計」之學校特色。
+「健康醫療」將植基於「全人健康」之理念，導引各院系課程融入健康促進之元素，並於期末舉辦「健康促進課程聯合博覽會」展現各種學習成果。</p>
+      <p>「創意設計」以「善念設計」為主軸，配合各學院的發展，希望五年後成為全國最具設計特色的大學。「創意設計中心」與「514創客基地」將結合各院系所資源與專長，進行跨領域整合與發展，發展各項創意設計的學程，如「體感互動微學分學程」與「動態資訊視覺化微學分學程」，並搭配「創意設計虛擬學院」之學習平台，將創意設計融入各學院系的教學模式中。</p>
+      <p><strong>(二)推動五脈絡</strong></p>
+      <P> 年輕世代為國家未來的希望，為培育符合國家社會、全球趨勢所需之優秀人才，本校擬採取五大脈絡進行規劃與推動，分別為：「創新教學模式」、「深化學用合一」、「鼓勵自主學習」、重視人文關懷」、及「強化國際涵養」等，分述如下：</P>
+      <ul>
+        <li><strong>脈絡一: </strong>從教師教學方向著手，推動「教學精進與創新」。鼓勵教師善用數位科技開設數位遠距課程，成立教師社群發展創新教學模式、全英文師資培訓與程式設計培訓，重構課程讓傳統老化課程注入新思維與運用，培訓TA加強學習輔導與班級經營。</li>
+        <li><strong>脈絡二: </strong>點出最主要的課題「深化學用合一」，本校將推動一系列行動方案及相關補助以協助教師執行產學合作案。在課程方面，加強實習機制與機會，強調實作與競賽，深化區域產業的連結來引導核心產業人才培育。另外，跨領域課程整合、成立跨領域學程並增開跨域協作課程來培養學生跨域能力，來提升獨特就業能力。</li>
+        <li><strong>脈絡三: </strong>為「鼓勵自主學習」，本校已通過「自主學分認定辦法」以及「開設暑期彈性學制」，讓學生學習更有彈性。同時打造本校獨具特色的英語自學平台，利用自學點數與履歷來建立學生自學興趣。</li>
+        <li><strong>脈絡四: </strong>「重視人文關懷」除了維持本校一貫的天主教特色，持續推動服務學習與偏鄉服務，更配合高較深耕精神來強調社會企業與在地實踐，實踐大學的社會責任。</li>
+        <li><strong>脈絡五: </strong>「強化國際涵養」則廣開全英文課程、發展國際化學習環境、強調跨國文化學習、深化國際交流、鼓勵國際合作、廣開橋樑學程、鼓勵學生交換等。</li>
+      </ul>
+      <h5><strong>相關資訊</strong></h5>
+      <ul>
+        <li>1.深耕計畫網站：<a href="http://moeproject.fju.edu.tw/" target="_blank"><u>http://moeproject.fju.edu.tw/</u></a></li>
+        <li>2.輔大高教深耕FACEBOOK粉絲專頁：<a href="https://www.facebook.com/p/%E8%BC%94%E5%A4%A7%E9%AB%98%E6%95%99%E6%B7%B1%E8%80%95%E8%A8%88%E7%95%AB-100057056936515/?locale=zh_TW&_rdr" target="_blank"><u>輔大高教深耕計畫</u></a></li>
+        <li>3.高教深耕成果展示:<a href="http://teachup.fju.edu.tw/" target="_blank"><u>http://teachup.fju.edu.tw/</u></a></li>
+      </ul>
+    </section>
+
+    <!-- 聯絡我們 -->
+    <section id="tab-contact" class="tab-content-section">
+      <h2>聯絡我們</h2>
+      <p>教師發展與教學資源中心竭誠歡迎各位老師蒞臨，如有需要中心任何協助與服務，請您不吝與中心各助理聯繫或至中心接受我們最真誠及溫馨服務。</p>
+      <p><strong>服務地址：</strong>242062 新北市新莊區中正路510號（于斌樓2樓）</p>
+      <p><strong>聯絡信箱：</strong>dean@mail.fju.edu.tw</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      &copy; 2025 輔仁大學 教師發展與教學資源中心
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content-section').forEach(sec => sec.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-target')).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
