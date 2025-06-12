@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>輔仁大學成績資訊平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --fju-blue: #004B8D;
+            --fju-light-grey: #f8f9fa;
+            --fju-dark-grey: #343a40;
+        }
+
+        html, body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--fju-light-grey);
+            color: var(--fju-dark-grey);
+            margin: 0;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+        }
+
+        .hero-section {
+            background-color: var(--fju-blue);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .section-title {
+            color: var(--fju-blue);
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .tab-button {
+            background-color: white;
+            border: 1px solid var(--fju-blue);
+            color: var(--fju-blue);
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .tab-button:hover,
+        .tab-button.active {
+            background-color: var(--fju-blue);
+            color: white;
+        }
+
+        .tab-content-section {
+            display: none;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.05);
+        }
+
+        .tab-content-section.active {
+            display: block;
+        }
+
+        footer {
+            background-color: var(--fju-dark-grey);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--fju-dark-grey);
+        }
+
+        a:hover {
+            color: #0d6efd;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            background-color: var(--fju-blue);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 50%;
+            font-size: 18px;
+            display: none;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .scroll-to-top:hover {
+            background-color: #003366;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">輔仁大學教務處</a>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="display-4">成績資訊平台</h1>
+        </div>
+    </section>
+
+    <main class="container py-5">
+        <div class="mb-4 text-center">
+            <button class="tab-button active" data-target="credit-tab">學分抵免</button>
+            <button class="tab-button" data-target="department-tab">系所專區</button>
+            <button class="tab-button" data-target="teacher-tab">教師專區</button>
+        </div>
+
+        <div id="credit-tab" class="tab-content-section active">
+            <h2 class="section-title">學分抵免</h2>
+            <ul>
+                <li><a href="https://docsacademic.fju.edu.tw/edulaw/%E5%AD%B8%E7%94%9F%E6%8A%B5%E5%85%8D%E7%A7%91%E7%9B%AE%E8%A6%8F%E5%89%87.pdf" target="_blank"><u>輔仁大學學生抵免科目規則</u></a></li>
+                <li><a href="https://docsacademic.fju.edu.tw/about%20graduate/%E5%AD%B8%E7%94%9F%E7%94%B3%E8%AB%8B%E6%8A%B5%E5%85%8D%E7%A7%91%E7%9B%AE%E4%BD%9C%E6%A5%AD.pdf" target="_blank"><u>學生申請抵免科目作業</u></a></li>
+                <li><a href="https://docsacademic.fju.edu.tw/form/%E6%8A%B5%E5%85%8D%E7%A7%91%E7%9B%AE%E7%94%B3%E8%AB%8B%E8%A1%A8.ods" target="_blank"><u>抵免科目申請表</u></a></li>
+                <li><a href="https://docsacademic.fju.edu.tw/about%20graduate/%E8%BD%89%E7%B3%BB%E7%94%9F%E6%8A%B5%E5%85%8D%E7%A7%91%E7%9B%AE%E7%94%B3%E8%AB%8B%E8%A1%A8.doc" target="_blank"><u>抵免科目申請表〈轉系生〉</u></a></li>
+            </ul>
+        </div>
+
+        <div id="department-tab" class="tab-content-section">
+            <h2 class="section-title">系所專區</h2>
+            <ul>
+                <li><a href="https://docsacademic.fju.edu.tw/about%20plan/%E9%99%A2%E9%96%8B%E5%AD%B8%E7%A8%8B%E6%87%89%E5%B1%86%E7%B5%90%E6%A5%AD%E7%94%9F%E5%90%8D%E5%96%AE.pdf" target="_blank"><u>院開學程結業生名單</u></a></li>
+                <li><a href="https://docsacademic.fju.edu.tw/about%20register/countrycode.pdf" target="_blank"><u>國別碼對照表</u></a></li>
+                <li><a href="https://docsacademic.fju.edu.tw/about%20register/freshmantypinginform.ods" target="_blank"><u>雙聯學制境外學校學生資料</u></a></li>
+                <li><a href="https://docsacademic.fju.edu.tw/form/%E8%87%AA%E4%B8%BB%E5%AD%B8%E7%BF%92%E5%AD%B8%E5%88%86%E6%88%90%E7%B8%BE%E9%80%9A%E9%81%8E%E8%AA%8D%E8%AD%89%E5%90%8D%E5%96%AE.doc" target="_blank"><u>自主學習學分成績通過認證名單 (DOC)</u></a></li>
+                <li><a href="https://docsacademic.fju.edu.tw/form/%E8%87%AA%E4%B8%BB%E5%AD%B8%E7%BF%92%E5%AD%B8%E5%88%86%E6%88%90%E7%B8%BE%E9%80%9A%E9%81%8E%E8%AA%8D%E8%AD%89%E5%90%8D%E5%96%AE.odt" target="_blank"><u>自主學習學分成績通過認證名單 (ODT)</u></a></li>
+            </ul>
+        </div>
+
+        <div id="teacher-tab" class="tab-content-section">
+            <h2 class="section-title">教師專區</h2>
+            <ul>
+                <li><a href="https://docsacademic.fju.edu.tw/form/%E6%95%99%E5%B8%AB%E6%9B%B4%E6%AD%A3%E5%AD%B8%E7%94%9F%E5%AD%B8%E6%9C%9F%E6%88%90%E7%B8%BE%E7%94%B3%E8%AB%8B%E8%A1%A8.doc" target="_blank"><u>教師更正學生學期成績申請表</u></a></li>
+                <li><a href="https://docsacademic.fju.edu.tw/form/%E6%95%99%E5%B8%AB%E6%9B%B4%E6%AD%A3%E5%AD%B8%E7%94%9F%E5%AD%B8%E6%9C%9F%E6%88%90%E7%B8%BE%E7%94%B3%E8%AB%8B%E8%A1%A8.odt" target="_blank"><u>教師更正學生學期成績申請表（ODT）</u></a></li>
+                <li><a href="https://docsacademic.fju.edu.tw/form/%E6%95%99%E5%B8%AB%E4%B8%8A%E5%82%B3%E5%AD%B8%E6%9C%9F%E6%88%90%E7%B8%BE%E4%BD%9C%E6%A5%AD%E6%B5%81%E7%A8%8B.pdf" target="_blank"><u>教師上傳學期成績作業流程</u></a></li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2025 輔仁大學成績資訊系統。版權所有。</p>
+            <p>技術支援: AI 智慧服務團隊</p>
+        </div>
+    </footer>
+
+    <button onclick="scrollToTop()" id="scrollTopBtn" class="scroll-to-top">↑</button>
+
+    <script>
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content-section').forEach(section => section.classList.remove('active'));
+
+                button.classList.add('active');
+                document.getElementById(button.getAttribute('data-target')).classList.add('active');
+            });
+        });
+
+        const scrollTopBtn = document.getElementById("scrollTopBtn");
+
+        window.onscroll = function() {
+            scrollTopBtn.style.display = (document.documentElement.scrollTop > 300) ? "block" : "none";
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
