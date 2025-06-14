@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>輔仁大學教務處各式申請表</title>
+  <style>
+    body { margin: 0; font-family: Arial; display: flex; flex-direction: column; height: 100vh; }
+    header {
+      background: linear-gradient(to right, #d8ebf9, #a0cde9);  /* 參考圖片藍色 */
+      padding: 10px; color: #000;
+    }
+    #container { flex: 1; display: flex; overflow: hidden; }
+    nav {
+      width: 200px; background: #f0f0f0;
+      padding: 10px; box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    }
+    nav a { display: block; margin: 8px 0; cursor: pointer; color: #333; }
+    main { flex: 1; padding: 20px; overflow-y: auto; }
+
+    .grid-item {
+      border: 1px solid #ccc; margin-bottom: 10px;
+      padding: 10px; background: #fff;
+    }
+    .dropdown-content {
+      display: none; margin-top: 5px; padding-left: 10px; color: #555;
+    }
+    .arrow {
+      cursor: pointer; float: right;
+    }
+            :root {
+            --fju-primary: #A3D5DC;
+            --fju-secondary: #E3D5C9;
+            --fju-accent: #F3EFDD;
+            --fju-neutral: #E3E8EB;
+            --fju-dark: #2C3E50;
+            --fju-text: #34495E;
+        }
+
+        body {
+            font-family: 'Open Sans', 'Microsoft JhengHei', sans-serif;
+            color: var(--fju-text);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--fju-primary) 0%, var(--fju-secondary) 100%);
+            box-shadow: 0 2px 15px rgba(163, 213, 220, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand h1 {
+            color: var(--fju-dark) !important;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--fju-dark) !important;
+            font-weight: 500;
+            padding: 0.75rem 1rem !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: #2980B9 !important;
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #2980B9;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after,
+        .navbar-nav .nav-link.active::after {
+            width: 80%;
+            left: 10%;
+        }
+
+        .dropdown-menu {
+            background: rgba(243, 239, 221, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--fju-secondary);
+            box-shadow: 0 10px 30px rgba(163, 213, 220, 0.3);
+            border-radius: 15px;
+        }
+
+        .dropdown-item {
+            color: var(--fju-text);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, var(--fju-primary), var(--fju-secondary));
+            color: var(--fju-dark);
+            transform: translateX(5px);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--fju-accent) 0%, var(--fju-neutral) 50%, var(--fju-primary) 100%);
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><path d="M0,100 C300,200 600,0 900,100 C1050,150 1150,50 1200,100 L1200,600 L0,600 Z" fill="rgba(227, 213, 201, 0.3)"/></svg>') no-repeat;
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h4 {
+            color: var(--fju-text) !important;
+        }
+
+        .hero-content h1 {
+            color: var(--fju-dark) !important;
+        }
+
+        .hero-content p {
+            color: var(--fju-text) !important;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(163, 213, 220, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid var(--fju-neutral);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(163, 213, 220, 0.3);
+            border-color: var(--fju-primary);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--fju-primary), var(--fju-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(163, 213, 220, 0.2);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid var(--fju-neutral);
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(163, 213, 220, 0.3);
+            border-color: var(--fju-primary);
+        }
+
+        .news-date {
+            background: var(--fju-primary);
+            color: var(--fju-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--fju-primary), #7CC8D1);
+            border: none;
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: var(--fju-dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(163, 213, 220, 0.4);
+            color: var(--fju-dark);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--fju-secondary);
+            color: var(--fju-text);
+            border-radius: 25px;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--fju-secondary);
+            color: var(--fju-dark);
+            transform: translateY(-2px);
+        }
+        .container {
+      display: flex;
+      min-height: 80vh;
+        }
+        .aside {
+        width: 220px;
+        background: #f0f0f0;
+        padding: 1rem;
+        border-right: 1px solid #ccc;
+        }
+        .aside a {
+        display: block;
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        text-decoration: none;
+        color: #2E3D59;
+        border-radius: 4px;
+        }
+        .aside a:hover {
+        background: #ddd;
+        }
+        .main {
+        flex: 1;
+        padding: 2rem;
+        }
+        .content-section {
+        display: none;
+        }
+        .active {
+        display: block;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, var(--fju-dark) 0%, #34495E 100%);
+            color: white;
+            padding: 20px;
+        }
+
+        .footer h4 {
+            color: var(--fju-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--fju-primary);
+            transform: translateX(5px);
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--fju-primary);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            color: var(--fju-dark);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            background: var(--fju-secondary);
+            color: var(--fju-dark) !important;
+        }
+
+        .stats-section {
+            background: linear-gradient(135deg, var(--fju-secondary) 0%, var(--fju-accent) 100%);
+            color: var(--fju-dark);
+            padding: 4rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--fju-primary);
+            display: block;
+            text-shadow: 1px 1px 2px rgba(163, 213, 220, 0.3);
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            color: var(--fju-text);
+        }
+
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+            color: var(--fju-dark);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: var(--fju-primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .bg-light {
+            background: var(--fju-accent) !important;
+        }
+
+        .btn-outline-primary {
+            border-color: var(--fju-primary);
+            color: var(--fju-primary);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--fju-primary);
+            border-color: var(--fju-primary);
+            color: var(--fju-dark);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                text-align: center;
+                padding: 2rem 0;
+            }
+            
+            .navbar-nav {
+                background: rgba(163, 213, 220, 0.95);
+                border-radius: 10px;
+                margin-top: 1rem;
+                padding: 1rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--fju-neutral);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--fju-primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--fju-secondary);
+        }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>輔仁大學＿申請表</h2>
+</header>
+
+
+<div id="container">
+  <nav>
+    <a onclick="showPage('1')">行政</a>
+    <a onclick="showPage('2')">教學助理</a>
+    <a onclick="showPage('3')">陸生研究獎勵金</a>
+    <a onclick="showPage('4')">教學與課程計畫配合款</a>
+    <a onclick="showPage('5')">產業實習暨產學合作委員會</a>
+    <a onclick="showPage('6')">學籍</a>
+    <a onclick="showPage('7')">離校(含休學、退學、畢業)</a>
+    <a onclick="showPage('8')">研究生專區</a>
+    <a onclick="showPage('9')">成績</a>
+    <a onclick="showPage('10')">課務</a>
+    <a onclick="showPage('11')">彈性課程相關表單</a>
+    <a onclick="showPage('12')">試務</a>
+  </nav>
+
+  <main>
+    <div id="1" class="page">行政相關表單
+            <ol>
+                <li><a href="about:blank" target="_blank">教務會議提案單〈院系所〉</a></li>
+                <li><a href="about:blank" target="_blank">教務會議提案單〈學生代表〉</a></li>
+                <li><a href="about:blank" target="_blank">教學績優教師獎勵推薦表</a></li>
+            </ol>
+    </div>
+
+    <div id="2" class="page" style="display:none;">教學助理相關表單
+            <ol>
+                <li><a href="about:blank" target="_blank">學院型教學助理約用資料表</a></li>
+                <li><a href="about:blank" target="_blank">學院型教學助理工作日誌_核銷用</a></li>
+                <li><a href="about:blank" target="_blank">學院型輔導教學助理_請領清冊</a></li>
+            </ol>
+    </div>
+
+    <div id="3" class="page" style="display:none;">陸生研究獎勵金相關表單
+            <ol>
+                <li><a href="about:blank" target="_blank">輔仁大學陸生參與專任教師研究計畫之申請流程</a></li>
+                <li><a href="about:blank" target="_blank">專任教師申請陸研究生研究計畫申請書 (申請時繳交)</a></li>
+                <li><a href="about:blank" target="_blank">專任教師申請陸研究生參與研究計畫申請書 (申請時繳交) (odt)</a></li>
+                <li><a href="about:blank" target="_blank">陸生研究生參與專任教師研究之學習計畫書 (申請時繳交)〉</a></li>
+                <li><a href="about:blank" target="_blank">陸生研究生參與專任教師研究之學習計畫書 (申請時繳交) (odt)</a></li>
+                <li><a href="about:blank" target="_blank">參與專任教師研究計畫之大陸研究生資料表 (通過後繳交)</a></li>
+            </ol>
+    </div>
+    
+  </main> 
+</div>
+
+<footer class="footer">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <h4><i class="fas fa-university me-2"></i>輔仁大學</h4>
+                    <p class="mb-4">天主教輔仁大學致力於全人教育，培育具有人文關懷與專業知識的優秀人才，為社會貢獻心力。</p>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+                            <div class="col-lg-3 col-md-6">
+                    <h4>聯絡資訊</h4>
+                    <div class="d-flex flex-column">
+                        <a href="#" class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>新北市新莊區中正路510號</a>
+                        <a href="tel:+886229052000" class="mb-2"><i class="fas fa-phone me-2"></i>(02) 2905-2000</a>
+                        <a href="mailto:info@fju.edu.tw" class="mb-2"><i class="fas fa-envelope me-2"></i>info@fju.edu.tw</a>
+                        <a href="#" class="mb-2"><i class="fas fa-globe me-2"></i>www.fju.edu.tw</a>
+                    </div>
+            </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function showPage(id) {
+    $('.page').hide();
+    $('#' + id).show();
+  }
+
+  $(document).ready(function() {
+    $('.arrow').click(function() {
+      $(this).siblings('.dropdown-content').slideToggle();
+    });
+  });
+</script>
+
+</body>
+</html>
