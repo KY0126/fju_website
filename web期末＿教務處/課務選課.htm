@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>輔仁大學課務選課系統 - AI 智慧平台</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --fju-blue: #004B8D; /* 輔大藍 */
+            --fju-light-blue: #007bff;
+            --fju-secondary: #6c757d;
+            --fju-light-grey: #f8f9fa;
+            --fju-dark-grey: #343a40;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif; /* Apply Noto Sans TC */
+            background-color: var(--fju-light-grey);
+            color: var(--fju-dark-grey);
+        }
+
+        .navbar-brand, .nav-link {
+            font-weight: bold;
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: var(--fju-dark-grey);
+        }
+
+        .navbar-light .navbar-nav .nav-link:hover {
+            color: var(--fju-blue);
+        }
+
+        .navbar-custom {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+        }
+
+        .hero-section {
+            background-color: var(--fju-blue);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--fju-blue);
+            border-bottom: 2px solid var(--fju-blue);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-weight: bold;
+            font-size: 2rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.07);
+            transition: transform 0.2s ease-in-out;
+            height: 100%; /* Keep for general cards, but accordion items handle their own height */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: var(--fju-blue);
+            color: white;
+            font-weight: bold;
+            border-radius: 8px 8px 0 0 !important;
+        }
+        
+        /* Specific styles for lists within cards/sections */
+        .card-body ul, .section-content-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .card-body ul li, .section-content-list ul li {
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--fju-light-grey);
+        }
+
+        .card-body ul li:last-child, .section-content-list ul li:last-child {
+            border-bottom: none;
+        }
+
+        .card-body ul li a, .section-content-list ul li a {
+            color: var(--fju-dark-grey);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .card-body ul li a:hover {
+            color: var(--fju-light-blue);
+        }
+
+        .footer {
+            background-color: var(--fju-dark-grey);
+            color: white;
+            padding: 40px 0;
+            margin-top: 50px;
+        }
+
+        .ai-recommendation-section {
+            background-color: #e9f0f6; /* Lighter blue for AI section */
+            padding: 50px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,.05);
+        }
+
+        .ai-recommendation-section h2 {
+            color: var(--fju-blue);
+        }
+
+        .ai-recommendation-section .input-group {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #aiRecommendationResults {
+            margin-top: 20px;
+            min-height: 100px; /* Placeholder for results */
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+        }
+
+        #smartChatBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0,0,0,.2);
+        }
+        #smartChatBtn img { /* Style for the image inside the floating button */
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the button area */
+            border-radius: 50%; /* Keep it round */
+        }
+
+
+        /* Specific styles for the interactive FAQ/Customer Service */
+        #faqInteractiveContainer {
+            margin-top: 20px;
+        }
+        #faqResults {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f0f8ff; /* Light blue background */
+            border-left: 5px solid var(--fju-blue);
+            border-radius: 5px;
+            min-height: 80px; /* Ensure some height for results */
+        }
+        #faqResults ul {
+            list-style: disc inside;
+        }
+        #faqResults ul li {
+            padding: 5px 0;
+            border-bottom: none; /* Override default card-body li border */
+        }
+
+        /* Styles for the new "重要連結與資訊" section and "常見問題與線上客服" - Accordion specific */
+        .info-section {
+            background-color: #ffffff;
+            padding: 40px; /* Uniform padding */
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.07);
+        }
+        .info-section h3 {
+            color: var(--fju-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+        .accordion-item {
+            border: 1px solid #dee2e6;
+            margin-bottom: 10px;
+            border-radius: .25rem;
+        }
+        .accordion-button {
+            background-color: white; /* Changed to white */
+            color: var(--fju-blue); /* Changed to FJU Blue */
+            font-weight: bold;
+            font-size: 1.25rem;
+            border-radius: .25rem;
+            box-shadow: none; /* Remove default shadow */
+        }
+        .accordion-button:not(.collapsed) {
+            background-color: #f0f0f0; /* Lighter grey when open */
+            color: var(--fju-blue); /* Keep FJU Blue */
+            box-shadow: none;
+        }
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: transparent;
+        }
+        .accordion-body {
+            padding: 20px;
+            background-color: #f8f9fa; /* Light background for content */
+            border-top: 1px solid #dee2e6;
+        }
+        .accordion-body ul {
+            list-style: none; /* Remove default list style */
+            padding: 0;
+            margin: 0;
+        }
+        .accordion-body ul li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #e9ecef; /* Light dashed line for sub-items */
+        }
+        .accordion-body ul li:last-child {
+            border-bottom: none;
+        }
+        .accordion-body ul li a {
+            color: var(--fju-dark-grey);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            display: block; /* Make the whole list item clickable */
+        }
+        .accordion-body ul li a:hover {
+            color: var(--fju-light-blue);
+        }
+        .accordion-body ul li a p {
+            font-size: 0.9em;
+            color: var(--fju-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Chat bubble styling for user */
+        .user-chat-bubble {
+            background-color: var(--fju-blue); /* FJU Blue background */
+            color: white; /* White text */
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 80%;
+            display: inline-block;
+        }
+
+        /* User image specific styling */
+        .user-avatar {
+            background-color: var(--fju-blue); /* Blue background for the circle */
+            border-radius: 50%; /* Make it round */
+            width: 30px; /* Consistent size */
+            height: 30px;
+            display: flex; /* For centering text */
+            align-items: center;
+            justify-content: center;
+            color: white; /* White text for "您" */
+            font-weight: bold;
+            font-size: 0.8em;
+        }
+
+        /* Styles for the floating question suggestions */
+        .question-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px; /* Space between suggestion boxes */
+            margin-bottom: 15px;
+        }
+
+        .question-suggestion-box {
+            background-color: #e0e0e0; /* Light grey */
+            color: #333;
+            padding: 6px 12px;
+            border-radius: 20px; /* More rounded for a bubble-like feel */
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            white-space: nowrap; /* Prevent text from wrapping */
+            border: 1px solid #d0d0d0; /* Subtle border */
+        }
+
+        .question-suggestion-box:hover {
+            background-color: #d0d0d0; /* Slightly darker on hover */
+            transform: translateY(-1px); /* Slight lift effect */
+        }
+
+        /* Styles for Career-Oriented Recommendation Section - MODIFIED */
+        #careerRecommendationSection {
+            background-color: #ffffff; /* Changed to white */
+            padding: 50px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.07); /* Added shadow */
+        }
+        #careerRecommendationSection h2 {
+            color: var(--fju-blue);
+        }
+        .career-step {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.05);
+            margin-top: 20px;
+        }
+        .ability-tag {
+            display: inline-block;
+            background-color: var(--fju-light-blue);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin: 4px;
+            font-size: 0.85em;
+        }
+        .course-card {
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            border-left: 5px solid var(--fju-blue);
+        }
+        .course-card .card-title {
+            color: var(--fju-blue);
+            font-weight: bold;
+        }
+        .course-card .badge {
+            font-size: 0.75em;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#home">輔仁大學課務選課系統</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.fju.edu.tw/index.jsp" target="_blank" rel="noopener noreferrer">輔仁大學</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.fju.edu.tw/administration.jsp?labelID=9" target="_blank" rel="noopener noreferrer">English</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://academic.fju.edu.tw/sitemap.jsp?choice=1" target="_blank" rel="noopener noreferrer">網站地圖</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.adm.fju.edu.tw/" target="_blank" rel="noopener noreferrer">招生資訊網</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="hero-section" id="home">
+        <div class="container">
+            <h1>歡迎使用 AI 智慧課務選課系統</h1>
+            <p>透過人工智慧，為您提供更個人化、更有效率的選課與學涯規劃服務。</p>
+            <div class="input-group mb-3 w-75 mx-auto">
+                <input type="text" class="form-control form-control-lg" placeholder="輸入關鍵字搜尋課程、學程或問題..." aria-label="Search" id="globalSearchInput">
+                <button class="btn btn-warning btn-lg" type="button" id="globalSearchBtn">智慧搜尋</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="container my-5">
+        <section id="careerRecommendationSection" class="info-section"> <h2 class="section-title text-center">職涯導向式課程推薦</h2> <p class="text-center text-muted mb-5">請輸入您的職涯目標與所需能力，讓我們為您找到最符合的課程。</p>
+
+            <div class="card p-4">
+                <div class="card-body">
+                    <form id="careerRecommendationForm">
+                        <div class="mb-4">
+                            <label for="department" class="form-label">您目前或感興趣的學院/系所是？</label>
+                            <select class="form-select" id="department">
+                                <option value="">請選擇</option>
+                                <optgroup label="日間部">
+                                    <optgroup label="文學院">
+                                        <option value="中國文學系">中國文學系</option>
+                                        <option value="歷史學系">歷史學系</option>
+                                        <option value="哲學系">哲學系</option>
+                                        <option value="圖書資訊學系">圖書資訊學系</option>
+                                        <option value="宗教學系">宗教學系</option>
+                                        <option value="博物館學研究所">博物館學研究所</option>
+                                    </optgroup>
+                                    <optgroup label="藝術學院">
+                                        <option value="音樂學系">音樂學系</option>
+                                        <option value="美術學系">美術學系</option>
+                                        <option value="景觀設計學系">景觀設計學系</option>
+                                        <option value="應用美術學系">應用美術學系</option>
+                                        <option value="織品服裝學系">織品服裝學系</option>
+                                        <option value="博物館學研究所">博物館學研究所</option>
+                                    </optgroup>
+                                    <optgroup label="傳播學院">
+                                        <option value="大眾傳播學系">大眾傳播學系</option>
+                                        <option value="影像傳播學系">影像傳播學系</option>
+                                        <option value="新聞傳播學系">新聞傳播學系</option>
+                                        <option value="廣告傳播學系">廣告傳播學系</option>
+                                    </optgroup>
+                                    <optgroup label="教育學院">
+                                        <option value="教育學系">教育學系</option>
+                                        <option value="體育學系">體育學系</option>
+                                        <option value="圖書資訊學系">圖書資訊學系</option>
+                                        <option value="教育領導與科技發展學士學位學程">教育領導與科技發展學士學位學程</option>
+                                    </optgroup>
+                                    <optgroup label="醫學院">
+                                        <option value="醫學系">醫學系</option>
+                                        <option value="護理學系">護理學系</option>
+                                        <option value="公共衛生學系">公共衛生學系</option>
+                                        <option value="醫學資訊與創新應用學士學位學程">醫學資訊與創新應用學士學位學程</option>
+                                        <option value="臨床心理學系">臨床心理學系</option>
+                                        <option value="職能治療學系">職能治療學系</option>
+                                        <option value="呼吸治療學系">呼吸治療學系</option>
+                                        <option value="物理治療學系">物理治療學系</option>
+                                        <option value="食品科學系">食品科學系</option>
+                                        <option value="營養科學系">營養科學系</option>
+                                        <option value="醫學檢驗暨生物技術學系">醫學檢驗暨生物技術學系</option>
+                                        <option value="藥學系">藥學系</option>
+                                    </optgroup>
+                                    <optgroup label="理工學院">
+                                        <option value="化學系">化學系</option>
+                                        <option value="物理學系">物理學系</option>
+                                        <option value="數學系">數學系</option>
+                                        <option value="生命科學系">生命科學系</option>
+                                        <option value="資訊工程學系">資訊工程學系</option>
+                                        <option value="電機工程學系">電機工程學系</option>
+                                        <option value="材料科學與工程學系">材料科學與工程學系</option>
+                                        <option value="光電工程學系">光電工程學系</option>
+                                        <option value="軟體工程與數位創意學士學位學程">軟體工程與數位創意學士學位學程</option>
+                                    </optgroup>
+                                    <optgroup label="外語學院">
+                                        <option value="英國語文學系">英國語文學系</option>
+                                        <option value="法國語文學系">法國語文學系</option>
+                                        <option value="德國語文學系">德國語文學系</option>
+                                        <option value="西班牙語文學系">西班牙語文學系</option>
+                                        <option value="日本語文學系">日本語文學系</option>
+                                        <option value="義大利語文學系">義大利語文學系</option>
+                                    </optgroup>
+                                    <optgroup label="民生學院">
+                                        <option value="餐旅管理學系">餐旅管理學系</option>
+                                        <option value="兒童與家庭學系">兒童與家庭學系</option>
+                                        <option value="食品科學系">食品科學系</option>
+                                        <option value="營養科學系">營養科學系</option>
+                                        <option value="織品服裝學系">織品服裝學系</option>
+                                    </optgroup>
+                                    <optgroup label="法律學院">
+                                        <option value="法律學系">法律學系</option>
+                                        <option value="財經法律學系">財經法律學系</option>
+                                    </optgroup>
+                                    <optgroup label="社會科學院">
+                                        <option value="經濟學系">經濟學系</option>
+                                        <option value="社會學系">社會學系</option>
+                                        <option value="社會工作學系">社會工作學系</option>
+                                        <option value="心理學系">心理學系</option>
+                                        <option value="統計資訊學系">統計資訊學系</option>
+                                        <option value="國際與公共事務學士學位學程">國際與公共事務學士學位學程</option>
+                                    </optgroup>
+                                    <optgroup label="管理學院">
+                                        <option value="企業管理學系">企業管理學系</option>
+                                        <option value="會計學系">會計學系</option>
+                                        <option value="金融與國際企業學系">金融與國際企業學系</option>
+                                        <option value="資訊管理學系">資訊管理學系</option>
+                                        <option value="統計資訊學系">統計資訊學系</option>
+                                        <option value="國際經營管理碩士班(IMBA)">國際經營管理碩士班(IMBA)</option>
+                                        <option value="商業管理學士學位學程">商業管理學士學位學程</option>
+                                    </optgroup>
+                                    <optgroup label="金融學院">
+                                        <option value="金融與國際企業學系">金融與國際企業學系</option>
+                                        <option value="風險管理與保險學系">風險管理與保險學系</option>
+                                    </optgroup>
+                                    <optgroup label="創新跨領域學院">
+                                        <option value="全人教育課程中心">全人教育課程中心</option>
+                                        <option value="學士後AI創新應用多元培力專班">學士後AI創新應用多元培力專班</option>
+                                        <option value="跨領域學分學程/微學程">跨領域學分學程/微學程</option>
+                                    </optgroup>
+                                </optgroup>
+                                <optgroup label="進修部">
+                                    <option value="人文社會服務進修學士學位學程">人文社會服務進修學士學位學程</option>
+                                    <option value="藝術與文化創意學士學位學程">藝術與文化創意學士學位學程</option>
+                                    <option value="大眾傳播學士學位學程">大眾傳播學士學位學程</option>
+                                    <option value="運動休閒管理學士學位學程">運動休閒管理學士學位學程</option>
+                                    <option value="軟體工程與數位創意學士學位學程(進修部)">軟體工程與數位創意學士學位學程</option>
+                                    <option value="商業管理學士學位學程(進修部)">商業管理學士學位學程</option>
+                                    <option value="長期照護與健康管理進修學士學位學程">長期照護與健康管理進修學士學位學程</option>
+                                    <option value="醫學資訊與健康科技進修學士學位學程">醫學資訊與健康科技進修學士學位學程</option>
+                                    <option value="資訊創新與數位生活進修學士學位學程">資訊創新與數位生活進修學士學位學程</option>
+                                    <option value="室內設計進修學士學位學程">室內設計進修學士學位學程</option>
+                                    <option value="服飾採購與行銷進修學士學位學程">服飾採購與行銷進修學士學位學程</option>
+                                </optgroup>
+                                <optgroup label="學分學程/微學程">
+                                    <option value="中國古籍整理學分學程">中國古籍整理學分學程</option>
+                                    <option value="哲學諮商與輔導學分學程">哲學諮商與輔導學分學程</option>
+                                    <option value="應用史學學分學程">應用史學學分學程</option>
+                                    <option value="應用中文學分學程">應用中文學分學程</option>
+                                    <option value="跨界敘事人文力微學程">跨界敘事人文力微學程</option>
+                                    <option value="動態資訊視覺設計微學程">動態資訊視覺設計微學程</option>
+                                    <option value="體感互動設計微學程">體感互動設計微學程</option>
+                                    <option value="音樂治療學分學程">音樂治療學分學程</option>
+                                    <option value="銀髮科技照護微學程">銀髮科技照護微學程</option>
+                                    <option value="全英語全球傳播微學程">全英語全球傳播微學程</option>
+                                    <option value="資料科學與應用微學程">資料科學與應用微學程</option>
+                                    <option value="運動傷害防護學分學程">運動傷害防護學分學程</option>
+                                    <option value="老人長期照護學分學程">老人長期照護學分學程</option>
+                                    <option value="高齡照護學分學程">高齡照護學分學程</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="careerGoal" class="form-label">您的職涯目標是什麼？</label>
+                            <select class="form-select" id="careerGoal">
+                                <option value="">請選擇</option>
+                                <optgroup label="資訊科技類">
+                                    <option value="AI 工程師">AI 工程師</option>
+                                    <option value="數據分析師">數據分析師</option>
+                                    <option value="軟體工程師">軟體工程師</option>
+                                    <option value="網站開發者">網站開發者</option>
+                                    <option value="網路安全專家">網路安全專家</option>
+                                </optgroup>
+                                <optgroup label="商業管理類">
+                                    <option value="數位行銷專員">數位行銷專員</option>
+                                    <option value="產品經理">產品經理</option>
+                                    <option value="財務分析師">財務分析師</option>
+                                    <option value="人資專員">人資專員</option>
+                                    <option value="專案經理">專案經理</option>
+                                </optgroup>
+                                <optgroup label="傳播設計類">
+                                    <option value="內容創作者">內容創作者</option>
+                                    <option value="視覺設計師">視覺設計師</option>
+                                    <option value="媒體企劃">媒體企劃</option>
+                                    <option value="品牌經理">品牌經理</option>
+                                </optgroup>
+                                <optgroup label="醫療健康類">
+                                    <option value="醫護人員">醫護人員</option>
+                                    <option value="藥師">藥師</option>
+                                    <option value="醫學研究員">醫學研究員</option>
+                                </optgroup>
+                                <optgroup label="其他">
+                                    <option value="教師">教師</option>
+                                    <option value="法律專業人員">法律專業人員</option>
+                                    <option value="社會工作者">社會工作者</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="skillsInput" class="form-label">您希望培養哪些能力？（可複選，輸入關鍵字選取）</label>
+                            <div class="selected-skills-container" id="selectedSkillsContainer">
+                                <div class="skills-input-wrapper">
+                                    <input type="text" class="form-control" id="skillsInput" list="skillsDatalist" placeholder="例如：程式設計、機器學習">
+                                    <datalist id="skillsDatalist"></datalist>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-fju-blue btn-lg">開始推薦</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="careerCourseResults" class="d-none info-section"> <h3 class="text-center section-title">推薦結果</h3> <div id="recommendedCoursesList" class="row row-cols-1 row-cols-md-2 g-4">
+                </div>
+
+            <h3 class="text-center section-title mt-5">想看更多選課心得？</h3> <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center mb-5">
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <h5 class="card-title text-center text-fju-blue fw-bold">ClassIn</h5>
+                            <p class="card-text">輔仁大學選課交流平台，提供課程評價與討論。</p>
+                            <a href="https://classin.info/view" target="_blank" class="btn btn-outline-fju-blue mt-auto">前往 ClassIn</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <h5 class="card-title text-center text-fju-blue fw-bold">歐趴糖OPT - 大學網選課攻略</h5>
+                            <p class="card-text">提供選課相關資訊與大學生活攻略。</p>
+                            <a href="https://www.1111opt.com.tw/periodical/25061509" target="_blank" class="btn btn-outline-fju-blue mt-auto">前往 歐趴糖OPT</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+        <section class="info-section mb-5" id="important-links-info">
+            <div class="container">
+                <h2 class="section-title text-center">重要連結與資訊</h2>
+                <div class="accordion" id="infoAccordion">
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCourseRelated">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCourseRelated" aria-expanded="false" aria-controls="collapseCourseRelated" id="course-related-anchor">
+                                課程相關
+                            </button>
+                        </h2>
+                        <div id="collapseCourseRelated" class="accordion-collapse collapse" aria-labelledby="headingCourseRelated" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#course-related-anchor">
+                                            課程資訊
+                                            <p>我想查詢本學期或未來學期的課程列表、開課時間和地點。我需要了解課程大綱、教學目標和評分標準。哪裡可以找到系所提供的課程介紹？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#course-related-anchor">
+                                            彈性課程
+                                            <p>我想了解非傳統學制或學分課程的修課選項。學校是否有提供微學分、跨領域或客製化的學習機會？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCourseSelection">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCourseSelection" aria-expanded="false" aria-controls="collapseCourseSelection" id="course-selection-anchor">
+                                選課相關
+                            </button>
+                        </h2>
+                        <div id="collapseCourseSelection" class="accordion-collapse collapse" aria-labelledby="headingCourseSelection" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#course-selection-anchor">
+                                            選課作業
+                                            <p>請問選課時間、流程和注意事項是什麼？我如何加退選課程或查詢選課結果？哪裡可以找到選課系統的操作指引？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#course-selection-anchor">
+                                            校際選課
+                                            <p>我想在其他學校修讀課程，請問如何申請和辦理？校際選課的學分承認規定是什麼？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingLearningExams">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLearningExams" aria-expanded="false" aria-controls="collapseLearningExams" id="learning-exams-anchor">
+                                學習與考試
+                            </button>
+                        </h2>
+                        <div id="collapseLearningExams" class="accordion-collapse collapse" aria-labelledby="headingLearningExams" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#learning-exams-anchor">
+                                            自主學習
+                                            <p>我對自主學習計劃有興趣，該如何申請和執行？學校有哪些資源可以支持我的自主學習？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#learning-exams-anchor">
+                                            暑修作業
+                                            <p>請問暑修的申請時間、開課資訊和繳費方式？我該如何辦理暑期重修或預修課程？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#learning-exams-anchor">
+                                            期中學期考試作業
+                                            <p>我需要查詢期中/期末考試的日期、時間和考場。請問補考或延考的申請規定是什麼？哪裡可以找到考試相關的規定和注意事項？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#learning-exams-anchor">
+                                            學位考試申請作業
+                                            <p>我準備申請畢業論文口試或學位考試，請問流程和文件要求？學位考試的資格和截止日期是什麼？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCommitteesCollaboration">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCommitteesCollaboration" aria-expanded="false" aria-controls="collapseCommitteesCollaboration" id="committees-collaboration-anchor">
+                                委員會與合作
+                            </button>
+                        </h2>
+                        <div id="collapseCommitteesCollaboration" class="accordion-collapse collapse" aria-labelledby="headingCommitteesCollaboration" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#committees-collaboration-anchor">
+                                            校課程委員會
+                                            <p>我想了解學校課程規劃和審議的相關資訊。如何提交課程相關的建議或意見給委員會？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#committees-collaboration-anchor">
+                                            產業實習暨產學合作委員會
+                                            <p>我對校外實習或產學合作有興趣，請問委員會的功能和協助範圍？如何獲得產業實習的機會或資訊？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSpecificStudents">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpecificStudents" aria-expanded="false" aria-controls="collapseSpecificStudents" id="specific-students-anchor">
+                                特定學生專區
+                            </button>
+                        </h2>
+                        <div id="collapseSpecificStudents" class="accordion-collapse collapse" aria-labelledby="headingSpecificStudents" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#specific-students-anchor">
+                                            就學役男專區
+                                            <p>我是就學役男，我想了解兵役相關的學籍規定或緩徵資訊。哪裡可以找到役男在學期間的權益和義務？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingGuidanceResources">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGuidanceResources" aria-expanded="false" aria-controls="collapseGuidanceResources" id="guidance-resources-anchor">
+                                課程輔導與資源
+                            </button>
+                        </h2>
+                        <div id="collapseGuidanceResources" class="accordion-collapse collapse" aria-labelledby="headingGuidanceResources" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#guidance-resources-anchor">
+                                            課業諮詢服務
+                                            <p>我在學習上遇到困難，想預約課業輔導或諮詢。哪裡可以找到學習方法、時間管理或報告寫作的建議？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#guidance-resources-anchor">
+                                            學習資源分享
+                                            <p>我想尋找課程的補充教材或線上學習平台。學校是否有推薦的學術軟體工具或開放式課程？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#guidance-resources-anchor">
+                                            校內外競賽與活動
+                                            <p>我想知道近期有哪些學術競賽、研討會或講座可以參加？哪裡可以找到應用所學、提升專業能力的活動資訊？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCourseEvaluation">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCourseEvaluation" aria-expanded="false" aria-controls="collapseCourseEvaluation" id="course-evaluation-anchor">
+                                課程評鑑與回饋
+                            </button>
+                        </h2>
+                        <div id="collapseCourseEvaluation" class="accordion-collapse collapse" aria-labelledby="headingCourseEvaluation" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#course-evaluation-anchor">
+                                            課程意見回饋平台
+                                            <p>我想對修過的課程內容、教學品質或老師表現提出匿名建議。哪裡可以提交課程意見回饋？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#course-evaluation-anchor">
+                                            課程評鑑結果查詢
+                                            <p>我想查詢歷年課程評鑑的學生滿意度或教學優點，作為選課參考。哪裡可以看到課程評鑑的公開摘要結果？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCreditPrograms">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCreditPrograms" aria-expanded="false" aria-controls="collapseCreditPrograms" id="credit-programs-anchor">
+                                學分學程與證書
+                            </button>
+                        </h2>
+                        <div id="collapseCreditPrograms" class="accordion-collapse collapse" aria-labelledby="headingCreditPrograms" data-bs-parent="#infoAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li>
+                                        <a href="#credit-programs-anchor">
+                                            學分學程介紹
+                                            <p>我對輔系、雙主修或跨領域學程有興趣，想了解申請資格、修課規定和課程地圖。學校提供了哪些不同領域的學分學程？</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#credit-programs-anchor">
+                                            專業證照輔導
+                                            <p>我想了解與我的專業相關的業界證照考試資訊和輔導資源。學校是否有提供專業證照相關的課程或協助？</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> </div>
+        </section>
+
+    <section class="info-section mb-5" id="faq-contact">
+        <div class="container">
+            <h2 class="section-title text-center">常見問題與線上客服</h2>
+            <div class="card p-4">
+                <div class="card-body">
+                    <p class="mb-3">輸入您的問題，我會為您推薦相關頁面：</p>
+                    <div class="question-suggestions" id="faqQuestionSuggestions">
+                        <span class="question-suggestion-box" data-query="選課">選課</span>
+                        <span class="question-suggestion-box" data-query="學分">學分</span>
+                        <span class="question-suggestion-box" data-query="考試">考試</span>
+                        <span class="question-suggestion-box" data-query="諮詢">諮詢</span>
+                        <span class="question-suggestion-box" data-query="評價">評價</span>
+                        <span class="question-suggestion-box" data-query="暑修">暑修</span>
+                        <span class="question-suggestion-box" data-query="自主學習">自主學習</span>
+                        <span class="question-suggestion-box" data-query="役男">役男</span>
+                    </div>
+                    <div class="input-group mb-3" id="faqInteractiveContainer">
+                        <input type="text" class="form-control" placeholder="例如：如何選課？" id="faqInput">
+                        <button class="btn btn-info" type="button" id="faqSearchBtn">查詢</button>
+                    </div>
+                    <div id="faqResults" class="mb-3 d-none">
+                        <p class="text-muted small">為您找到以下相關內容：</p>
+                        <ul id="faqResultList">
+                        </ul>
+                    </div>
+                    <p class="text-muted small">找不到答案？請使用課務選課小幫手獲得即時協助。</p>
+                    <a href="#" class="btn btn-outline-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#smartChatModal">前往課務選課小幫手/線上諮詢</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+            <p>&copy; 2025 輔仁大學課務選課系統. All Rights Reserved.</p>
+            <p>地址: 新北市新莊區中正路510號</p>
+            <p>電話: (02) 2905-2000</p>
+            <p>
+                <a href="#">隱私權政策</a> |
+                <a href="#">使用條款</a>
+            </p>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="smartChatModal" tabindex="-1" aria-labelledby="smartChatModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="smartChatModalLabel">課務選課小幫手</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="chatMessages" style="height: 300px; overflow-y: scroll; border: 1px solid #eee; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
+                        <div class="d-flex mb-2">
+                            <div class="flex-shrink-0 me-2">
+                                <img src="輔星寶-頭貼.jpg" alt="輔星寶" class="rounded-circle" width="30" height="30">
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="p-2 bg-light rounded shadow-sm" style="max-width: 80%;">
+                                    大家好！我是輔星寶，輔仁大學的AI吉祥物。我會穿梭在校園各個線上平台和AI智能服務中，為你解答學術行政相關問題，因為我可是掌握了所有資訊喔！
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mt-3">
+                        <input type="text" class="form-control" placeholder="輸入您的問題..." id="chatInput">
+                        <button class="btn btn-primary" type="button" id="chatSendBtn">傳送</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 職涯目標與所需能力對應資料
+            const careerSkills = {
+                "AI 工程師": ["程式設計", "機器學習", "深度學習", "Python", "數據結構", "演算法", "線性代數", "統計學"],
+                "數據分析師": ["統計分析", "數據視覺化", "SQL", "Python", "R語言", "Excel", "商業智慧", "資料清理"],
+                "軟體工程師": ["程式設計", "軟體開發", "資料庫", "版本控制", "物件導向", "網頁開發", "演算法", "測試"],
+                "網站開發者": ["前端開發", "後端開發", "JavaScript", "HTML", "CSS", "框架應用", "資料庫", "RWD"],
+                "網路安全專家": ["網路安全", "資訊安全", "滲透測試", "加密技術", "程式弱點分析", "防火牆", "系統管理"],
+                "數位行銷專員": ["行銷策略", "社群媒體行銷", "SEO", "SEM", "內容行銷", "數據分析", "文案撰寫", "廣告投放"],
+                "產品經理": ["產品規劃", "市場分析", "使用者體驗", "溝通協調", "專案管理", "需求分析", "敏捷開發"],
+                "財務分析師": ["財務報表分析", "投資分析", "會計學", "經濟學", "風險管理", "統計學", "金融市場"],
+                "人資專員": ["招募與選才", "員工關係", "薪酬福利", "勞動法規", "組織發展", "溝通協調", "心理學"],
+                "專案經理": ["專案規劃", "風險管理", "團隊協作", "溝通協調", "時程管理", "資源分配", "問題解決"],
+                "內容創作者": ["文案撰寫", "腳本創作", "影片製作", "圖像設計", "社群經營", "說故事能力", "創意發想"],
+                "視覺設計師": ["平面設計", "UI/UX設計", "Adobe系列軟體", "排版", "色彩學", "美學素養", "創意"],
+                "媒體企劃": ["媒體購買", "廣告策略", "市場研究", "數據分析", "簡報技巧", "公關溝通"],
+                "品牌經理": ["品牌策略", "市場定位", "行銷推廣", "消費者行為", "產品開發", "溝通協調"],
+                "醫護人員": ["醫學知識", "護理技能", "臨床實務", "溝通能力", "同理心", "急救", "藥理學"],
+                "藥師": ["藥理學", "藥物化學", "藥物管理", "病患諮詢", "醫療法規", "溝通能力"],
+                "醫學研究員": ["科學研究方法", "實驗設計", "數據分析", "生物統計", "學術寫作", "醫學知識"],
+                "教師": ["教學方法", "課程設計", "班級經營", "溝通技巧", "教育心理學", "教材編寫"],
+                "法律專業人員": ["法律知識", "邏輯思維", "問題解決", "溝通協調", "文書處理", "辯論能力"],
+                "社會工作者": ["諮商輔導", "個案管理", "社區工作", "溝通協調", "倫理學", "同理心", "社會福利"]
+            };
+
+            const selectedSkills = new Set(); // 用於儲存已選擇的能力
+
+            function updateSkillsDatalist(careerGoal) {
+                const datalist = $('#skillsDatalist');
+                datalist.empty(); // 清空現有選項
+                const skillsForGoal = careerSkills[careerGoal] || [];
+                // 排除已經選擇的技能
+                const availableSkills = skillsForGoal.filter(skill => !selectedSkills.has(skill));
+                availableSkills.forEach(skill => {
+                    datalist.append(`<option value="${skill}">`);
+                });
+            }
+
+            function addSkillTag(skill) {
+                if (skill && !selectedSkills.has(skill)) {
+                    selectedSkills.add(skill);
+                    const tagHtml = `
+                        <span class="selected-skill-tag badge bg-secondary me-2 mb-2 d-inline-flex align-items-center">
+                            ${skill}
+                            <span class="remove-tag ms-1" data-skill="${skill}" style="cursor: pointer;">&times;</span>
+                        </span>
+                    `;
+                    $('#selectedSkillsContainer .skills-input-wrapper').before(tagHtml);
+                    $('#skillsInput').val(''); // 清空輸入框
+                    updateSkillsDatalist($('#careerGoal').val()); // 更新 datalist
+                }
+            }
+
+            function removeSkillTag(skill) {
+                selectedSkills.delete(skill);
+                $(`.remove-tag[data-skill="${skill}"]`).parent().remove();
+                updateSkillsDatalist($('#careerGoal').val()); // 更新 datalist
+            }
+
+            // 初始載入時，更新 skillsDatalist
+            updateSkillsDatalist($('#careerGoal').val());
+
+            // 職涯目標選擇改變時更新能力選單
+            $('#careerGoal').on('change', function() {
+                selectedSkills.clear(); // 清空已選擇的能力
+                $('#selectedSkillsContainer .selected-skill-tag').remove(); // 移除所有已顯示的標籤
+                updateSkillsDatalist($(this).val());
+            });
+
+            // 當從 datalist 中選擇一個技能時，或輸入後按下 Enter
+            $('#skillsInput').on('input', function() {
+                const val = $(this).val();
+                // 檢查是否為 datalist 中的選項
+                if ($('#skillsDatalist option').filter(function() {
+                    return this.value === val;
+                }).length > 0) {
+                    addSkillTag(val);
+                }
+            }).on('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // 阻止表單提交
+                    addSkillTag($(this).val());
+                }
+            });
+
+            // 點擊已選擇技能的叉叉時移除
+            $('#selectedSkillsContainer').on('click', '.remove-tag', function() {
+                const skillToRemove = $(this).data('skill');
+                removeSkillTag(skillToRemove);
+            });
+
+            $('#careerRecommendationForm').on('submit', function(e) {
+                e.preventDefault();
+                const careerGoal = $('#careerGoal').val();
+                const skills = Array.from(selectedSkills); // 將 Set 轉換為 Array
+                const department = $('#department').val();
+
+                // Mock data for demonstration purposes
+                // In a real application, you would send these inputs to a backend API
+                // to get actual course recommendations.
+                const mockCourses = [
+                    { name: "人工智慧導論", code: "CS101", dept: "資訊工程學系", credits: 3, tags: ["AI", "機器學習", "Python"], outlineUrl: "https://outline.fju.edu.tw/#/outlineSearch/searchView", signcourseUrl: "https://signcourse.fju.edu.tw/" },
+                    { name: "大數據分析", code: "STAT205", dept: "統計資訊學系", credits: 3, tags: ["數據分析", "R語言", "統計"], outlineUrl: "https://outline.fju.edu.tw/#/outlineSearch/searchView", signcourseUrl: "https://signcourse.fju.edu.tw/" },
+                    { name: "數位行銷策略", code: "MKT301", dept: "企業管理學系", credits: 3, tags: ["數位行銷", "社群媒體", "策略規劃"], outlineUrl: "https://outline.fju.edu.tw/#/outlineSearch/searchView", signcourseUrl: "https://signcourse.fju.edu.tw/" },
+                    { name: "物件導向程式設計", code: "CS201", dept: "資訊工程學系", credits: 3, tags: ["程式設計", "Java", "軟體開發"], outlineUrl: "https://outline.fju.edu.tw/#/outlineSearch/searchView", signcourseUrl: "https://signcourse.fju.edu.tw/" }
+                ];
+
+                const recommendedCoursesList = $('#recommendedCoursesList');
+                recommendedCoursesList.empty();
+
+                if (mockCourses.length > 0) {
+                    mockCourses.forEach(course => {
+                        const tagsHtml = course.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('');
+                        const programBadge = course.program ? `<span class="badge bg-info ms-2">${course.program}</span>` : '';
+                        recommendedCoursesList.append(
+                            `<div class="col">
+                                <div class="card course-card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${course.name} <small class="text-muted">(${course.code})</small>${programBadge}</h5>
+                                        <p class="card-text mb-1">開課系所: ${course.dept} | 學分: ${course.credits}</p>
+                                        <p class="card-text">${tagsHtml}</p>
+                                        <a href="${course.outlineUrl}" target="_blank" class="btn btn-outline-fju-blue btn-sm me-2">查看課程大綱</a>
+                                        <a href="${course.signcourseUrl}" target="_blank" class="btn btn-outline-success btn-sm">查詢開課</a>
+                                        <small class="text-muted ms-2" style="color: red;">系統於 114 年 09 月 04 日至 114 年 09 月 11 日開放</small>
+                                    </div>
+                                </div>
+                            </div>`
+                        );
+                    });
+                } else {
+                    recommendedCoursesList.append('<p>很抱歉，沒有找到符合您條件的課程或學程。請嘗試調整您的職涯目標或能力需求。</p>');
+                }
+
+                $('#careerCourseResults').removeClass('d-none');
+                // Scroll to results
+                $('html, body').animate({
+                    scrollTop: $('#careerCourseResults').offset().top - $('.navbar').outerHeight()
+                }, 500);
+            });
+
+
+
+            // FAQ / Chatbot functionality (from original file)
+            const faqData = {
+                "選課": [
+                    { q: "如何查詢課程大綱？", a: "您可以透過<a href='https://outline.fju.edu.tw/#/outlineSearch/searchView' target='_blank'>課程大綱查詢系統</a>進行查詢。" },
+                    { q: "選課時間是什麼時候？", a: "一般選課時間請參考<a href='https://www.fju.edu.tw/calendar.jsp' target='_blank'>學校行事曆</a>或教務處公告，系統會於指定時間開放選課。" },
+                    { q: "如何加簽課程？", a: "加簽課程請依教務處規定辦理，通常需在加退選期間取得授課老師同意並完成線上申請。" }
+                ],
+                "學分": [
+                    { q: "畢業學分總共要多少？", a: "各系所畢業學分規定不同，請參考<a href='https://academic.fju.edu.tw/sitemap.jsp' target='_blank'>教務處網頁</a>或您的系所修業規定。" },
+                    { q: "通識學分如何計算？", a: "通識學分分為核心通識、一般通識等，詳細規定請參考<a href='https://academic.fju.edu.tw/sitemap.jsp' target='_blank'>教務處通識教育中心</a>網頁。" }
+                ],
+                "考試": [
+                    { q: "期中考和期末考時間？", a: "請參考各課程的課程大綱，或留意老師上課公告。" },
+                    { q: "考試請假如何辦理？", a: "請依教務處規定辦理，通常需提出證明並經系所核准。" }
+                ],
+                "諮詢": [
+                    { q: "如何找老師諮詢課業？", a: "建議透過系所網頁查詢老師的聯絡方式或辦公室時間。" }
+                ],
+                "評價": [
+                    { q: "哪裡可以看到課程評價？", a: "您可以參考<a href='https://classin.info/view' target='_blank'>ClassIn 輔仁大學選課交流平台</a>。" }
+                ],
+                "暑修": [
+                    { q: "暑修課程如何申請？", a: "暑修課程申請時間和規定請參考教務處暑修相關公告。" }
+                ],
+                "自主學習": [
+                    { q: "自主學習相關規定？", a: "請參考教務處或學務處相關公告。" }
+                ],
+                "役男": [
+                    { q: "役男相關的選課規定？", a: "役男選課規定可能涉及兵役相關法規，建議洽詢學校教務處或軍訓室。" }
+                ]
+            };
+
+            // Function to display FAQ results
+            function displayFaqResults(query) {
+                const resultsContainer = $('#faqResults');
+                const resultList = $('#faqResultList');
+                resultList.empty(); // Clear previous results
+
+                const normalizedQuery = query.toLowerCase().trim();
+                let hasResults = false;
+
+                for (const key in faqData) {
+                    if (normalizedQuery.includes(key.toLowerCase())) {
+                        faqData[key].forEach(item => {
+                            resultList.append(`<li><strong>${item.q}</strong>: ${item.a}</li>`);
+                        });
+                        hasResults = true;
+                    }
+                }
+
+                if (!hasResults) {
+                    resultList.append('<li>很抱歉，找不到與您的問題相關的內容。建議您使用課務選課小幫手獲得即時協助。</li>');
+                }
+
+                resultsContainer.removeClass('d-none');
+            }
+
+            // FAQ search button click handler
+            $('#faqSearchBtn').on('click', function() {
+                const query = $('#faqInput').val();
+                if (query) {
+                    displayFaqResults(query);
+                } else {
+                    $('#faqResults').addClass('d-none');
+                }
+            });
+
+            // FAQ question suggestion box click handler
+            $('#faqQuestionSuggestions').on('click', '.question-suggestion-box', function() {
+                const query = $(this).data('query');
+                $('#faqInput').val(query); // Set the input field value
+                displayFaqResults(query); // Display results for the suggestion
+            });
+
+            // Chatbot functionality (mockup)
+            $('#chatSendBtn').on('click', function() {
+                const chatInput = $('#chatInput');
+                const message = chatInput.val().trim();
+                if (message) {
+                    appendChatMessage('user', message);
+                    chatInput.val('');
+                    // Simulate AI response
+                    setTimeout(() => {
+                        appendChatMessage('ai', '您好，您的問題我已經收到，正在為您查找相關資訊...');
+                    }, 1000);
+                }
+            });
+
+            function appendChatMessage(sender, message) {
+                const chatMessages = $('#chatMessages');
+                let messageHtml = '';
+                if (sender === 'user') {
+                    messageHtml = `
+                        <div class="d-flex justify-content-end mb-2">
+                            <div class="user-chat-bubble">
+                                ${message}
+                            </div>
+                            <div class="flex-shrink-0 ms-2">
+                                <div class="user-avatar">您</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    messageHtml = `
+                        <div class="d-flex mb-2">
+                            <div class="flex-shrink-0 me-2">
+                                <img src="輔星寶-頭貼.jpg" alt="輔星寶" class="rounded-circle" width="30" height="30">
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="p-2 bg-light rounded shadow-sm" style="max-width: 80%;">
+                                    ${message}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                chatMessages.append(messageHtml);
+                chatMessages.scrollTop(chatMessages[0].scrollHeight); // Scroll to bottom
+            }
+        });
+    </script>
+</body>
+</html>
