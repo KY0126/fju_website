@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>輔仁大學教務處各式申請表</title>
   <style>
     body { margin: 0; font-family: Arial; display: flex; flex-direction: column; height: 100vh; }
@@ -390,6 +391,52 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--fju-secondary);
         }
+  @media (max-width: 992px) {
+    #container {
+      flex-direction: column;
+    }
+
+    nav {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      box-shadow: none;
+      padding: 10px 0;
+    }
+
+    nav a {
+      flex: 1 0 45%;
+      margin: 5px;
+      text-align: center;
+      padding: 10px;
+      background-color: #e0e0e0;
+      border-radius: 8px;
+    }
+
+    main {
+      padding: 10px;
+    }
+
+    .footer {
+      text-align: center;
+    }
+
+    .footer .row,
+    .footer .col-lg-3 {
+      width: 100% !important;
+    }
+  }
+
+  @media (max-width: 576px) {
+    nav a {
+      flex: 1 0 100%;
+    }
+
+    .stat-item {
+      padding: 1rem 0.5rem;
+    }
+  }
   </style>
 </head>
 <body>
